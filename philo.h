@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/08/19 13:55:17 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/08/19 14:53:16 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,32 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <pthread.h>
+# include <stdbool.h>
+
+/* ************************************************************************** */
+/*                                Typedefs                                    */
+/* ************************************************************************** */
+
+typedef struct philo_var
+{
+	int	num_of_philo;
+	int	time_to_die;
+	int	time_to_eat;
+	int	time_to_sleep;
+	int	num_has_to_eat;
+}	t_philo_var;
+
+/* ************************************************************************** */
+/*                                Functions                                   */
+/* ************************************************************************** */
+
+int			get_input(int argc, char *argv[], t_philo_var *philo_var);
+
+/* ************************************************************************** */
+/*                                  Utils                                     */
+/* ************************************************************************** */
+
+long int	ft_atoi_long(const char *str);
+size_t		ft_strlen(const char *s);
 
 #endif
