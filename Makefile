@@ -6,7 +6,7 @@
 #    By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/21 13:58:27 by eweiberl          #+#    #+#              #
-#    Updated: 2023/08/19 13:51:14 by eweiberl         ###   ########.fr        #
+#    Updated: 2023/08/19 14:41:39 by eweiberl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,9 @@ NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SOURCE = 
+SOURCE = main.c
+SOURCE += input/get_input.c
+SOURCE += utils/ft_atoi.c utils/ft_strlen.c
 
 OBJS = $(SOURCE:.c=.o)
 
