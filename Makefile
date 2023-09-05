@@ -6,7 +6,7 @@
 #    By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/21 13:58:27 by eweiberl          #+#    #+#              #
-#    Updated: 2023/08/19 14:41:39 by eweiberl         ###   ########.fr        #
+#    Updated: 2023/09/05 16:54:11 by eweiberl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ CFLAGS = -Wall -Wextra -Werror
 SOURCE = main.c
 SOURCE += input/get_input.c
 SOURCE += utils/ft_atoi.c utils/ft_strlen.c
+SOURCE += philos/init_philos.c philos/exec_philo.c
 
 OBJS = $(SOURCE:.c=.o)
 

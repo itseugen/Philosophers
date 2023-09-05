@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/08/19 14:53:16 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:02:40 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,16 @@
 /*                                Typedefs                                    */
 /* ************************************************************************** */
 
-typedef struct philo_var
+typedef struct s_philosopher
+{
+	pthread_t				thread;
+	int						id;
+	int						fork_right;
+	struct s_philosopher	*fork_left;
+	struct s_philosopher	*next;
+}	t_philosopher;
+
+typedef struct s_philo_var
 {
 	int	num_of_philo;
 	int	time_to_die;
@@ -42,7 +51,10 @@ typedef struct philo_var
 /*                                Functions                                   */
 /* ************************************************************************** */
 
-int			get_input(int argc, char *argv[], t_philo_var *philo_var);
+int				get_input(int argc, char *argv[], t_philo_var *philo_var);
+void			free_philos(t_philosopher **philo_list);
+t_philosopher	*init_philo(t_philo_var philo_var);
+int				create_threads(t_philosopher *philo_list);
 
 /* ************************************************************************** */
 /*                                  Utils                                     */
