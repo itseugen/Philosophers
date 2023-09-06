@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/06 13:49:28 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:38:47 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ int	create_threads(t_philosopher *philo_list)
 	current = philo_list;
 	while (current != NULL)
 	{
+		if (pthread_mutex_init(&(current->fork_lock), NULL) != 0)
+			return (printf("mutex creation\n"), 1);
 		if (pthread_create(&(current->thread), NULL, one_philo, current) != 0)
-			return (perror("pthread creation"), 1);
+			return (printf("pthread creation\n"), 1);
 		current = current->next;
 	}
 	current = philo_list;

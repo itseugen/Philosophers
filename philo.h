@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/06 13:50:08 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:51:15 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <stdbool.h>
+
+/* ************************************************************************** */
+/*                                Defines                                     */
+/* ************************************************************************** */
+
 
 /* ************************************************************************** */
 /*                                Typedefs                                    */
@@ -45,6 +50,7 @@ typedef struct s_philosopher
 	int						fork_right;
 	struct s_philosopher	*fork_left;
 	struct s_philosopher	*next;
+	pthread_mutex_t			fork_lock;
 	t_philo_var				philo_var;
 }	t_philosopher;
 
