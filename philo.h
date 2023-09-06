@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/05 17:02:40 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/06 13:50:08 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,6 @@
 /*                                Typedefs                                    */
 /* ************************************************************************** */
 
-typedef struct s_philosopher
-{
-	pthread_t				thread;
-	int						id;
-	int						fork_right;
-	struct s_philosopher	*fork_left;
-	struct s_philosopher	*next;
-}	t_philosopher;
-
 typedef struct s_philo_var
 {
 	int	num_of_philo;
@@ -46,6 +37,16 @@ typedef struct s_philo_var
 	int	time_to_sleep;
 	int	num_has_to_eat;
 }	t_philo_var;
+
+typedef struct s_philosopher
+{
+	pthread_t				thread;
+	int						id;
+	int						fork_right;
+	struct s_philosopher	*fork_left;
+	struct s_philosopher	*next;
+	t_philo_var				philo_var;
+}	t_philosopher;
 
 /* ************************************************************************** */
 /*                                Functions                                   */

@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/05 17:09:58 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/06 13:49:28 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 static void	*one_philo(void *param)
 {
-	t_philosopher	*this_philo;
+	t_philosopher	*philo;
 
-	this_philo = (t_philosopher *)param;
-	printf("Id: %d\n", this_philo->id);
+	philo = (t_philosopher *)param;
+	printf("Id: %d\n", philo->id);
+	printf("Time to eat: %d\n", philo->philo_var.time_to_eat);
 	return (0);
 }
 
@@ -32,10 +33,12 @@ int	create_threads(t_philosopher *philo_list)
 			return (perror("pthread creation"), 1);
 		current = current->next;
 	}
+	current = philo_list;
 	while (current != NULL)
 	{
 		pthread_join(current->thread, NULL);
 		current = current->next;
 	}
+
 	return (0);
 }

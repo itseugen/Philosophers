@@ -6,13 +6,14 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:05:28 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/05 16:25:08 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/06 13:49:08 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-static int				add_philo(t_philosopher **philo_list, int id);
+static int				add_philo(t_philosopher **philo_list, int id,
+							t_philo_var philo_var);
 static t_philosopher	*get_last_philo(t_philosopher **philo_list);
 
 t_philosopher	*init_philo(t_philo_var philo_var)
@@ -25,10 +26,11 @@ t_philosopher	*init_philo(t_philo_var philo_var)
 		return (perror("malloc fail"), NULL);
 	philo_list->next = NULL;
 	philo_list->id = 1;
+	philo_list->philo_var = philo_var;
 	i = 0;
 	while (i < philo_var.num_of_philo - 1)
 	{
-		if (add_philo(&philo_list, i + 2) == -1)
+		if (add_philo(&philo_list, i + 2, philo_var) == -1)
 			return (free_philos(&philo_list), NULL);
 		i++;
 	}
@@ -46,7 +48,7 @@ static t_philosopher	*get_last_philo(t_philosopher **philo_list)
 	return (current);
 }
 
-static int	add_philo(t_philosopher **philo_list, int id)
+static int	add_philo(t_philosopher **philo_list, int id, t_philo_var philo_var)
 {
 	t_philosopher	*new_philo;
 	t_philosopher	*last_philo;
@@ -58,6 +60,7 @@ static int	add_philo(t_philosopher **philo_list, int id)
 	new_philo->id = id;
 	last_philo->next = new_philo;
 	new_philo->fork_left = last_philo;
+	new_philo->philo_var = philo_var;
 	return (0);
 }
 
