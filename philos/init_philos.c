@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:05:28 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/06 14:41:07 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/06 15:04:20 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_philosopher	*init_philo(t_philo_var philo_var)
 		return (perror("malloc fail"), NULL);
 	philo_list->next = NULL;
 	philo_list->id = 1;
+	philo_list->fork = FREE;
 	philo_list->philo_var = philo_var;
 	i = 0;
 	while (i < philo_var.num_of_philo - 1)
@@ -58,6 +59,7 @@ static int	add_philo(t_philosopher **philo_list, int id, t_philo_var philo_var)
 	if (new_philo == NULL)
 		return (-1);
 	new_philo->id = id;
+	new_philo->fork = FREE;
 	last_philo->next = new_philo;
 	new_philo->fork_left = last_philo;
 	new_philo->philo_var = philo_var;

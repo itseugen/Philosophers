@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/06 14:51:15 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/06 15:02:48 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 /*                                Defines                                     */
 /* ************************************************************************** */
 
+# define FREE 0
+# define LOCK 1
 
 /* ************************************************************************** */
 /*                                Typedefs                                    */
@@ -47,7 +49,7 @@ typedef struct s_philosopher
 {
 	pthread_t				thread;
 	int						id;
-	int						fork_right;
+	int						fork;
 	struct s_philosopher	*fork_left;
 	struct s_philosopher	*next;
 	pthread_mutex_t			fork_lock;
