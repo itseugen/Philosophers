@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/06 17:47:06 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/08 14:30:15 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	*one_philo(void *param)
 	t_philosopher	*philo;
 
 	philo = (t_philosopher *)param;
-	// printf("Id: %d\n", philo->id);
+	philo->start_time = get_start_time();
 	// printf("Time to eat: %d\n", philo->philo_var.time_to_eat);
 	if (philo->fork == FREE && philo->fork_left->fork == FREE)
 	{
@@ -28,34 +28,21 @@ static void	*one_philo(void *param)
 		pthread_mutex_lock(&philo->fork_left->fork_lock);
 		printf("ID: %d has taken a fork\n", philo->id);
 		printf("ID: %d is eating\n", philo->id);
-		sleep(5);
+		sleep(3);
 		pthread_mutex_unlock(&philo->fork_lock);
 		pthread_mutex_unlock(&philo->fork_left->fork_lock);
 		printf("ID: %d is sleeping\n", philo->id);
-		sleep(10);
+		sleep(4);
 	}
 	else
 	{
 		printf("ID: %d is sleeping\n", philo->id);
-		sleep(10);
+		sleep(4);
 	}
+	usleep(10000);
 	printf("ID: %d is thinking\n", philo->id);
-	while (1)
-	{
-		philo->fork = LOCK;
-		philo->fork_left->fork = LOCK;
-		pthread_mutex_lock(&philo->fork_lock);
-		printf("ID: %d has taken a fork\n", philo->id);
-		pthread_mutex_lock(&philo->fork_left->fork_lock);
-		printf("ID: %d has taken a fork\n", philo->id);
-		printf("ID: %d is eating\n", philo->id);
-		sleep(5);
-		pthread_mutex_unlock(&philo->fork_lock);
-		pthread_mutex_unlock(&philo->fork_left->fork_lock);
-		printf("ID: %d is sleeping\n", philo->id);
-		sleep(10);
-		printf("ID: %d is thinking\n", philo->id);
-	}
+	printf("ID: %d Current time since start: %ldms\n", philo->id, get_ms(philo->start_time));
+
 	return (0);
 }
 

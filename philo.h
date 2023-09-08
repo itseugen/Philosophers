@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/06 15:02:48 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/08 13:20:54 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_philosopher
 	struct s_philosopher	*next;
 	pthread_mutex_t			fork_lock;
 	t_philo_var				philo_var;
+	struct timeval			start_time;
 }	t_philosopher;
 
 /* ************************************************************************** */
@@ -69,7 +70,9 @@ int				create_threads(t_philosopher *philo_list);
 /*                                  Utils                                     */
 /* ************************************************************************** */
 
-long int	ft_atoi_long(const char *str);
-size_t		ft_strlen(const char *s);
+long int		ft_atoi_long(const char *str);
+size_t			ft_strlen(const char *s);
+struct timeval	get_start_time(void);
+long			get_ms(struct timeval start_time);
 
 #endif
