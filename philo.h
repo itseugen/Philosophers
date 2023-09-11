@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/08 13:20:54 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/11 16:29:03 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ int				get_input(int argc, char *argv[], t_philo_var *philo_var);
 void			free_philos(t_philosopher **philo_list);
 t_philosopher	*init_philo(t_philo_var philo_var);
 int				create_threads(t_philosopher *philo_list);
+int				start_simulation(t_philosopher **philo_list,
+					pthread_mutex_t start_lock);
+void			wait_ms(long ms);
 
 /* ************************************************************************** */
 /*                                  Utils                                     */

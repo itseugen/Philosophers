@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/11 14:51:38 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/11 16:29:27 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,29 @@ static void	*one_philo(void *param)
 
 	philo = (t_philosopher *)param;
 	philo->start_time = get_start_time();
-	// printf("Time to eat: %d\n", philo->philo_var.time_to_eat);
 	if (philo->fork == FREE && philo->fork_left->fork == FREE)
 	{
 		philo->fork = LOCK;
 		philo->fork_left->fork = LOCK;
 		pthread_mutex_lock(&philo->fork_lock);
-		printf("ID: %d has taken a fork\n", philo->id);
+		printf("%ld %d has taken a fork\n", get_ms(philo->start_time), philo->id);
 		pthread_mutex_lock(&philo->fork_left->fork_lock);
-		printf("ID: %d has taken a fork\n", philo->id);
-		printf("ID: %d is eating\n", philo->id);
-		sleep(3);
+		printf("%ld %d has taken a fork\n", get_ms(philo->start_time), philo->id);
+		printf("%ld %d is eating\n", get_ms(philo->start_time), philo->id);
+		wait_ms(philo->philo_var.time_to_eat);
 		pthread_mutex_unlock(&philo->fork_lock);
 		pthread_mutex_unlock(&philo->fork_left->fork_lock);
 		philo->fork = FREE;
 		philo->fork_left->fork = FREE;
-		printf("ID: %d is sleeping\n", philo->id);
-		sleep(4);
+		printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
+		wait_ms(philo->philo_var.time_to_sleep);
 	}
 	else
 	{
-		printf("ID: %d is sleeping\n", philo->id);
-		sleep(4);
+		printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
+		wait_ms(philo->philo_var.time_to_sleep);
 	}
-	usleep(10000);
-	printf("ID: %d is thinking\n", philo->id);
+	printf("%ld %d is thinking\n", get_ms(philo->start_time), philo->id);
 	printf("ID: %d Current time since start: %ldms\n", philo->id, get_ms(philo->start_time));
 
 	return (0);

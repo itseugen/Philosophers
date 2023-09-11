@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:03 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/08 14:20:23 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/11 16:28:54 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,16 @@ long	get_ms(struct timeval start_time)
 	comb_mis = (current_time.tv_usec - start_time.tv_usec) / 1000;
 	ms_since_start = comb_s + comb_mis;
 	return (ms_since_start);
+}
+
+/// @brief Waits ms milliseconds
+/// @param ms the amount of ms to wait
+/// @param start_time the simulation starttume
+void	wait_ms(long ms)
+{
+	struct timeval	start_time;
+
+	gettimeofday(&start_time, NULL);
+	while (get_ms(start_time) < ms)
+		usleep(100);
 }
