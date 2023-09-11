@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/11 16:29:03 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:05:43 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int				create_threads(t_philosopher *philo_list);
 int				start_simulation(t_philosopher **philo_list,
 					pthread_mutex_t start_lock);
 void			wait_ms(long ms);
+long			get_ms(struct timeval start_time);
 
 /* ************************************************************************** */
 /*                                  Utils                                     */
@@ -76,6 +77,6 @@ void			wait_ms(long ms);
 long int		ft_atoi_long(const char *str);
 size_t			ft_strlen(const char *s);
 struct timeval	get_start_time(void);
-long			get_ms(struct timeval start_time);
+void			*ft_calloc(size_t count, size_t size);
 
 #endif
