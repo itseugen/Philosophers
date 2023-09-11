@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/08 14:30:15 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:51:38 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	*one_philo(void *param)
 		sleep(3);
 		pthread_mutex_unlock(&philo->fork_lock);
 		pthread_mutex_unlock(&philo->fork_left->fork_lock);
+		philo->fork = FREE;
+		philo->fork_left->fork = FREE;
 		printf("ID: %d is sleeping\n", philo->id);
 		sleep(4);
 	}
