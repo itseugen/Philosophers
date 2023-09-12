@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:36:20 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/12 15:42:41 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:44:16 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	eat(t_philosopher *philo)
 	printf("%ld %d has taken a fork\n",
 		get_ms(philo->start_time), philo->id);
 	printf("%ld %d is eating\n", get_ms(philo->start_time), philo->id);
-	philo->last_meal == get_ms(philo->start_time);
+	philo->last_meal = get_ms(philo->start_time);
 	philo->num_eaten++;
 	// if (philo->num_eaten == philo->philo_var.num_has_to_eat)
 	// 	setsomevartoindicatefinishing();
