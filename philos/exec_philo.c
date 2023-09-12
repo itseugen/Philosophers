@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/12 16:15:08 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:37:41 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void	*one_philo(void *param)
 		{
 			eat(philo);
 			printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
+			if (dies_during(philo, philo->philo_var.time_to_sleep) == true)
+				break ;
 			wait_ms(philo->philo_var.time_to_sleep);
 			printf("%ld %d is thinking\n", get_ms(philo->start_time), philo->id);
 		}
@@ -41,20 +43,7 @@ static void	do_first(t_philosopher *philo)
 {
 	if (philo->fork == FREE && philo->fork_left->fork == FREE)
 	{
-		philo->fork = LOCK;
-		philo->fork_left->fork = LOCK;
-		pthread_mutex_lock(&philo->fork_lock);
-		printf("%ld %d has taken a fork\n",
-			get_ms(philo->start_time), philo->id);
-		pthread_mutex_lock(&philo->fork_left->fork_lock);
-		printf("%ld %d has taken a fork\n",
-			get_ms(philo->start_time), philo->id);
-		printf("%ld %d is eating\n", get_ms(philo->start_time), philo->id);
-		wait_ms(philo->philo_var.time_to_eat);
-		pthread_mutex_unlock(&philo->fork_lock);
-		pthread_mutex_unlock(&philo->fork_left->fork_lock);
-		philo->fork = FREE;
-		philo->fork_left->fork = FREE;
+		eat(philo);
 		printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
 		wait_ms(philo->philo_var.time_to_sleep);
 	}

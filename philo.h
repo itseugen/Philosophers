@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/12 16:33:31 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:38:12 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ long			get_ms(struct timeval start_time);
 
 void			starving(t_philosopher *philo);
 void			eat(t_philosopher *philo);
+bool			dies_during(t_philosopher *philo, int action);
 
 /* ************************************************************************** */
 /*                                  Utils                                     */

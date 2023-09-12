@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:36:20 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/12 16:53:53 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:42:17 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,22 @@ void	eat(t_philosopher *philo)
 	pthread_mutex_unlock(&philo->fork_left->fork_lock);
 	philo->fork = FREE;
 	philo->fork_left->fork = FREE;
+}
+
+/// @brief Checks if the philo dies during his following action
+/// @param philo 
+/// @param action the time of the action about to be performed
+/// @return returns true if he dies and falls if he does not
+bool	dies_during(t_philosopher *philo, int action)
+{
+	if (get_ms(philo->start_time) - philo->last_meal + action
+		> philo->philo_var.time_to_die)
+	{
+		wait_ms(philo->philo_var.time_to_die
+			- (get_ms(philo->start_time) - philo->last_meal));
+		philo->isdead = true;
+		printf("%ld %d has died\n", get_ms(philo->start_time), philo->id);
+		return (true);
+	}
+	return (false);
 }
