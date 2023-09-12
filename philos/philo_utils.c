@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:36:20 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/12 17:42:17 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:47:31 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	eat(t_philosopher *philo)
 	philo->num_eaten++;
 	// if (philo->num_eaten == philo->philo_var.num_has_to_eat)
 	// 	setsomevartoindicatefinishing();
+	if (dies_during(philo, philo->philo_var.time_to_eat) == true)
+		return ;
 	wait_ms(philo->philo_var.time_to_eat);
 	pthread_mutex_unlock(&philo->fork_lock);
 	pthread_mutex_unlock(&philo->fork_left->fork_lock);

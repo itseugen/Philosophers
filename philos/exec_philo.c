@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/12 17:37:41 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:47:53 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static void	*one_philo(void *param)
 		if (philo->fork == FREE && philo->fork_left->fork == FREE)
 		{
 			eat(philo);
+			if (philo->isdead == true)
+				break ;
 			printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
 			if (dies_during(philo, philo->philo_var.time_to_sleep) == true)
 				break ;
