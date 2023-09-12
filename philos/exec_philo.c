@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/12 14:09:17 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:34:57 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	*one_philo(void *param)
 
 	philo = (t_philosopher *)param;
 	philo->start_time = get_start_time();
+	philo->last_meal = 0;
 	do_first(philo);
 	while (philo->isdead == false)
 	{
@@ -34,6 +35,7 @@ static void	*one_philo(void *param)
 			printf("%ld %d has taken a fork\n",
 				get_ms(philo->start_time), philo->id);
 			printf("%ld %d is eating\n", get_ms(philo->start_time), philo->id);
+			philo->last_meal == get_ms(philo->start_time);
 			philo->num_eaten++;
 			// if (philo->num_eaten == philo->philo_var.num_has_to_eat)
 			// 	setsomevartoindicatefinishing();
@@ -45,6 +47,11 @@ static void	*one_philo(void *param)
 			printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
 			wait_ms(philo->philo_var.time_to_sleep);
 			printf("%ld %d is thinking\n", get_ms(philo->start_time), philo->id);
+			if (philo->id == 1)
+			{
+				printf("%ld %d died\n", get_ms(philo->start_time), philo->id);
+				philo->isdead = true;
+			}
 		}
 	}
 	printf("%d has eaten: %d times\n", philo->id, philo->num_eaten);
@@ -95,11 +102,28 @@ int	create_threads(t_philosopher *philo_list)
 		current = current->next;
 	}
 	current = philo_list;
+	while (1)
+	{
+		if (current->isdead == true)
+			break ;
+		current = current->next;
+		if (current == NULL)
+			current = philo_list;
+		usleep(100);
+	}
+	current = philo_list;
+	//! Add a bool print to indicate if the thread should print anything
 	while (current != NULL)
 	{
-		pthread_join(current->thread, NULL);
+		current->isdead = true;
+		pthread_detach(current->thread);
 		current = current->next;
 	}
+	// while (current != NULL)
+	// {
+	// 	pthread_join(current->thread, NULL);
+	// 	current = current->next;
+	// }
 
 	return (0);
 }

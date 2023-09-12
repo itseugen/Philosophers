@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/11 17:49:04 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:33:48 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_philosopher
 	struct timeval			start_time;
 	bool					isdead;
 	int						num_eaten;
+	long					last_meal;
 }	t_philosopher;
 
 /* ************************************************************************** */
