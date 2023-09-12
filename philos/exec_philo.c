@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/11 18:05:40 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:09:17 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ static void	*one_philo(void *param)
 	philo = (t_philosopher *)param;
 	philo->start_time = get_start_time();
 	do_first(philo);
-	while (philo->isdead == false && (philo->num_eaten
-			< philo->philo_var.num_has_to_eat
-			|| philo->philo_var.num_has_to_eat == -2))
+	while (philo->isdead == false)
 	{
 		if (philo->fork == FREE && philo->fork_left->fork == FREE)
 		{
@@ -36,6 +34,9 @@ static void	*one_philo(void *param)
 			printf("%ld %d has taken a fork\n",
 				get_ms(philo->start_time), philo->id);
 			printf("%ld %d is eating\n", get_ms(philo->start_time), philo->id);
+			philo->num_eaten++;
+			// if (philo->num_eaten == philo->philo_var.num_has_to_eat)
+			// 	setsomevartoindicatefinishing();
 			wait_ms(philo->philo_var.time_to_eat);
 			pthread_mutex_unlock(&philo->fork_lock);
 			pthread_mutex_unlock(&philo->fork_left->fork_lock);
@@ -46,6 +47,7 @@ static void	*one_philo(void *param)
 			printf("%ld %d is thinking\n", get_ms(philo->start_time), philo->id);
 		}
 	}
+	printf("%d has eaten: %d times\n", philo->id, philo->num_eaten);
 	printf("ID: %d Current time since start: %ldms\n", philo->id, get_ms(philo->start_time));
 	return (0);
 }
