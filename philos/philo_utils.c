@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:36:20 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/12 17:47:31 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/13 18:26:12 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ bool	dies_during(t_philosopher *philo, int action)
 		wait_ms(philo->philo_var.time_to_die
 			- (get_ms(philo->start_time) - philo->last_meal));
 		philo->isdead = true;
-		printf("%ld %d has died\n", get_ms(philo->start_time), philo->id);
+		printf("%ld %d died\n", get_ms(philo->start_time), philo->id);
 		return (true);
 	}
 	return (false);
