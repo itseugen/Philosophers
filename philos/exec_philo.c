@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/13 18:29:22 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/13 18:35:34 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void	*one_philo(void *param)
 	return (0);
 }
 
+//! Make depending on even id 
 static void	do_first(t_philosopher *philo)
 {
 	if (philo->fork == FREE && philo->fork_left->fork == FREE)
