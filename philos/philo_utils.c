@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:36:20 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/14 15:07:57 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/14 18:54:15 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ void	starving(t_philosopher *philo)
 void	eat(t_philosopher *philo)
 {
 	philo->fork = LOCK;
+	if (philo->fork_left->fork == LOCK)
+	{
+		philo->fork = FREE;
+		return ;
+	}
 	philo->fork_left->fork = LOCK;
 	pthread_mutex_lock(&philo->fork_lock);
 	printf("%ld %d has taken a fork\n",

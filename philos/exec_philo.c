@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/14 14:54:05 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/14 18:59:40 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ static void	*one_philo(void *param)
 		else
 		{
 			starving(philo);
-			usleep(100);
-			if (philo->isdead == true)
-				printf("%ld %d died\n", get_ms(philo->start_time), philo->id);
+			// usleep(100);
+			// if (philo->isdead == true)
+				// printf("%ld %d died\n", get_ms(philo->start_time), philo->id);
 		}
 	}
 	// printf("%d has eaten: %d times\n", philo->id, philo->num_eaten);
