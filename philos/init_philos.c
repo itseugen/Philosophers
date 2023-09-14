@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:05:28 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/11 17:26:47 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:11:37 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ static int				add_philo(t_philosopher **philo_list, int id,
 							t_philo_var philo_var);
 static t_philosopher	*get_last_philo(t_philosopher **philo_list);
 
+/// @brief Allocates the philosophers
+/// @param philo_var 
+/// @return The list of philos or NULL if malloc fails
 t_philosopher	*init_philo(t_philo_var philo_var)
 {
 	int				i;
@@ -39,6 +42,9 @@ t_philosopher	*init_philo(t_philo_var philo_var)
 	return (philo_list);
 }
 
+/// @brief Returns a pointer to the last philo of the list
+/// @param philo_list 
+/// @return 
 static t_philosopher	*get_last_philo(t_philosopher **philo_list)
 {
 	t_philosopher	*current;
@@ -49,6 +55,11 @@ static t_philosopher	*get_last_philo(t_philosopher **philo_list)
 	return (current);
 }
 
+/// @brief adds and allocates a new philo
+/// @param philo_list The list of the philos (to get prev)
+/// @param id The id of the philo being added
+/// @param philo_var THe varibles to store
+/// @return 
 static int	add_philo(t_philosopher **philo_list, int id, t_philo_var philo_var)
 {
 	t_philosopher	*new_philo;
@@ -66,6 +77,8 @@ static int	add_philo(t_philosopher **philo_list, int id, t_philo_var philo_var)
 	return (0);
 }
 
+/// @brief Frees all philosophers
+/// @param philo_list 
 void	free_philos(t_philosopher **philo_list)
 {
 	t_philosopher	*current;

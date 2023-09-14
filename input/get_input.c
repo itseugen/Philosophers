@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:17:04 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/08/19 14:53:00 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:38:21 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 static int	get_argv(char *str);
 static bool	is_str_digit(char *str);
 
+/// @brief Gets the input an writes it to a struct
+/// @param argc 
+/// @param argv 
+/// @param philo_var the struct to write to
+/// @return 0 if all went succesful or 1 if input was wrong
 int	get_input(int argc, char *argv[], t_philo_var *philo_var)
 {
 	if (argc < 5 || argc > 6)
@@ -32,6 +37,9 @@ int	get_input(int argc, char *argv[], t_philo_var *philo_var)
 	return (0);
 }
 
+/// @brief Checks if string is a number and returns integer
+/// @param str 
+/// @return Returns the number got from str as an int
 static int	get_argv(char *str)
 {
 	long int	num;
@@ -46,6 +54,9 @@ static int	get_argv(char *str)
 	return ((int)num);
 }
 
+/// @brief Checks if the whole string is made of ints
+/// @param str 
+/// @return true if all chars a between 0 and 9
 static bool	is_str_digit(char *str)
 {
 	int	i;
