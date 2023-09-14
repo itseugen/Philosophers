@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/14 13:45:46 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:54:05 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 static void	do_first(t_philosopher *philo);
 static bool	has_eaten_enough(t_philosopher *philo);
 
+/// @brief The function each philo uses
+/// @param param 
+/// @return 
 static void	*one_philo(void *param)
 {
 	t_philosopher	*philo;
@@ -73,6 +76,9 @@ static void	do_first(t_philosopher *philo)
 	printf("%ld %d is thinking\n", get_ms(philo->start_time), philo->id);
 }
 
+/// @brief Creates the threads and controlls them after (might be changed)
+/// @param philo_list 
+/// @return 
 int	create_threads(t_philosopher *philo_list)
 {
 	t_philosopher	*current;
@@ -109,6 +115,9 @@ int	create_threads(t_philosopher *philo_list)
 	return (0);
 }
 
+/// @brief Checks if all philos have eaten num_has_eaten times
+/// @param philo 
+/// @return true if all philos have eaten
 static bool	has_eaten_enough(t_philosopher *philo)
 {
 	t_philosopher	*current;
