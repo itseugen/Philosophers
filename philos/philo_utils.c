@@ -6,12 +6,14 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:36:20 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/14 14:09:55 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:07:57 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
+/// @brief Checks if the philosopher should be dead
+/// @param philo 
 void	starving(t_philosopher *philo)
 {
 	long	time_since_last_meal;
@@ -21,6 +23,8 @@ void	starving(t_philosopher *philo)
 		philo->isdead = true;
 }
 
+/// @brief makes the philo eat
+/// @param philo 
 void	eat(t_philosopher *philo)
 {
 	philo->fork = LOCK;
