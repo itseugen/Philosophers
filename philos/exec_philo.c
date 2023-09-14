@@ -6,13 +6,14 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/13 18:35:34 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/14 13:45:46 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
 static void	do_first(t_philosopher *philo);
+static bool	has_eaten_enough(t_philosopher *philo);
 
 static void	*one_philo(void *param)
 {
@@ -21,6 +22,7 @@ static void	*one_philo(void *param)
 	philo = (t_philosopher *)param;
 	philo->start_time = get_start_time();
 	philo->last_meal = 0;
+	philo->num_eaten = 0;
 	do_first(philo);
 	while (philo->isdead == false)
 	{
@@ -51,7 +53,7 @@ static void	*one_philo(void *param)
 //! Make depending on even id 
 static void	do_first(t_philosopher *philo)
 {
-	if (philo->fork == FREE && philo->fork_left->fork == FREE)
+	if (philo->id % 2 != 0 && philo->fork == FREE && philo->fork_left->fork == FREE)
 	{
 		eat(philo);
 		if (philo->isdead == false && dies_during(philo, philo->philo_var.time_to_sleep) == false)
@@ -90,6 +92,8 @@ int	create_threads(t_philosopher *philo_list)
 		if (current->isdead == true)
 			break ;
 		current = current->next;
+		if (has_eaten_enough(philo_list) == true)
+			break ;
 		if (current == NULL)
 			current = philo_list;
 		usleep(100);
@@ -102,11 +106,21 @@ int	create_threads(t_philosopher *philo_list)
 		pthread_detach(current->thread);
 		current = current->next;
 	}
-	// while (current != NULL)
-	// {
-	// 	pthread_join(current->thread, NULL);
-	// 	current = current->next;
-	// }
-
 	return (0);
+}
+
+static bool	has_eaten_enough(t_philosopher *philo)
+{
+	t_philosopher	*current;
+
+	current = philo;
+	if (current->philo_var.num_has_to_eat == -2)
+		return (false);
+	while (current != NULL)
+	{
+		if (current->num_eaten < current->philo_var.num_has_to_eat)
+			return (false);
+		current = current->next;
+	}
+	return (true);
 }
