@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/15 18:22:10 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:25:10 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int	create_threads(t_philosopher *philo_list)
 	t_philosopher	*current;
 	pthread_mutex_t	print_lock;
 
+	if (pthread_mutex_init(&print_lock, NULL) != 0)
+		return (printf("mutex creation\n"), 1);
 	current = philo_list;
 	while (current != NULL)
 	{
@@ -91,6 +93,7 @@ int	create_threads(t_philosopher *philo_list)
 			return (printf("mutex creation\n"), 1);
 		if (pthread_create(&(current->thread), NULL, one_philo, current) != 0)
 			return (printf("pthread creation\n"), 1);
+		current->print_lock = &print_lock;
 		current = current->next;
 	}
 	current = philo_list;
@@ -106,13 +109,13 @@ int	create_threads(t_philosopher *philo_list)
 		usleep(100);
 	}
 	current = philo_list;
-	//! Add a bool print to indicate if the thread should print anything (or a mutex)
 	while (current != NULL)
 	{
 		current->isdead = true;
 		pthread_detach(current->thread);
 		current = current->next;
 	}
+	pthread_mutex_destroy(&print_lock);
 	return (0);
 }
 
