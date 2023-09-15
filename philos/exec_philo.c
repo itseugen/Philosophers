@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/15 18:25:10 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:30:57 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,9 @@ static void	do_first(t_philosopher *philo)
 int	create_threads(t_philosopher *philo_list)
 {
 	t_philosopher	*current;
-	pthread_mutex_t	print_lock;
+	bool			print_lock;
 
-	if (pthread_mutex_init(&print_lock, NULL) != 0)
-		return (printf("mutex creation\n"), 1);
+	print_lock = false;
 	current = philo_list;
 	while (current != NULL)
 	{

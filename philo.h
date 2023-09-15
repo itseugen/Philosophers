@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/15 18:20:26 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:30:32 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_philosopher
 	bool					isdead;
 	int						num_eaten;
 	long					last_meal;
-	pthread_mutex_t			*print_lock;
+	bool					*print_lock;
 }	t_philosopher;
 
 /* ************************************************************************** */
