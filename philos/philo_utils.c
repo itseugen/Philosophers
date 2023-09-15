@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:36:20 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/14 18:54:15 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:10:47 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,15 @@ void	eat(t_philosopher *philo)
 	}
 	philo->fork_left->fork = LOCK;
 	pthread_mutex_lock(&philo->fork_lock);
-	printf("%ld %d has taken a fork\n",
-		get_ms(philo->start_time), philo->id);
+	if (*(philo->print_lock) == false)
+		printf("%ld %d has taken a fork\n",
+			get_ms(philo->start_time), philo->id);
 	pthread_mutex_lock(&philo->fork_left->fork_lock);
-	printf("%ld %d has taken a fork\n",
-		get_ms(philo->start_time), philo->id);
-	printf("%ld %d is eating\n", get_ms(philo->start_time), philo->id);
+	if (*(philo->print_lock) == false)
+		printf("%ld %d has taken a fork\n",
+			get_ms(philo->start_time), philo->id);
+	if (*(philo->print_lock) == false)
+		printf("%ld %d is eating\n", get_ms(philo->start_time), philo->id);
 	philo->last_meal = get_ms(philo->start_time);
 	philo->num_eaten++;
 	if (dies_during(philo, philo->philo_var.time_to_eat) == true)
@@ -64,8 +67,20 @@ bool	dies_during(t_philosopher *philo, int action)
 		wait_ms(philo->philo_var.time_to_die
 			- (get_ms(philo->start_time) - philo->last_meal));
 		philo->isdead = true;
-		printf("%ld %d died\n", get_ms(philo->start_time), philo->id);
+		if (*(philo->print_lock) == false)
+		{
+			*(philo->print_lock) = true;
+			printf("%ld %d died\n", get_ms(philo->start_time), philo->id);
+		}
 		return (true);
 	}
 	return (false);
+}
+
+void	print_action(t_philosopher *philo, int content)
+{
+	if (*(philo->print_lock) == false)
+	{
+		
+	}
 }

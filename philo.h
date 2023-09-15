@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/15 18:30:32 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:12:57 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,15 @@
 
 # define FREE 0
 # define LOCK 1
+
+enum e_print
+{
+	FORK,
+	EAT,
+	SLEEP,
+	THINK,
+	DIE
+};
 
 /* ************************************************************************** */
 /*                                Typedefs                                    */
@@ -81,6 +90,7 @@ long			get_ms(struct timeval start_time);
 void			starving(t_philosopher *philo);
 void			eat(t_philosopher *philo);
 bool			dies_during(t_philosopher *philo, int action);
+void			print_action(t_philosopher *philo, int content);
 
 /* ************************************************************************** */
 /*                                  Utils                                     */

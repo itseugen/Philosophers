@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/15 18:31:17 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:09:03 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,23 @@ static void	*one_philo(void *param)
 		if (philo->fork == FREE && philo->fork_left->fork == FREE)
 		{
 			eat(philo);
-			if (philo->isdead == true)
-				break ;
-			printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
+			if (*(philo->print_lock) == false)
+				printf("%ld %d is sleeping\n",
+					get_ms(philo->start_time), philo->id);
 			if (dies_during(philo, philo->philo_var.time_to_sleep) == true)
 				break ;
 			wait_ms(philo->philo_var.time_to_sleep);
-			printf("%ld %d is thinking\n", get_ms(philo->start_time), philo->id);
+			if (*(philo->print_lock) == false)
+				printf("%ld %d is thinking\n",
+					get_ms(philo->start_time), philo->id);
 		}
 		else
 		{
 			starving(philo);
-			// usleep(100);
-			// if (philo->isdead == true)
-				// printf("%ld %d died\n", get_ms(philo->start_time), philo->id);
+			if (philo->isdead == true)
+				printf("%ld %d died\n", get_ms(philo->start_time), philo->id);
 		}
 	}
-	// printf("%d has eaten: %d times\n", philo->id, philo->num_eaten);
-	// printf("ID: %d Current time since start: %ldms\n", philo->id, get_ms(philo->start_time));
 	return (0);
 }
 
@@ -61,7 +60,8 @@ static void	do_first(t_philosopher *philo)
 		eat(philo);
 		if (philo->isdead == false && dies_during(philo, philo->philo_var.time_to_sleep) == false)
 		{
-			printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
+			if (*(philo->print_lock) == false)
+				printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
 			wait_ms(philo->philo_var.time_to_sleep);
 		}
 	}
@@ -69,11 +69,13 @@ static void	do_first(t_philosopher *philo)
 	{
 		if (philo->isdead == false && dies_during(philo, philo->philo_var.time_to_sleep) == false)
 		{
-			printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
+			if (*(philo->print_lock) == false)
+				printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
 			wait_ms(philo->philo_var.time_to_sleep);
 		}
 	}
-	printf("%ld %d is thinking\n", get_ms(philo->start_time), philo->id);
+	if (*(philo->print_lock) == false)
+		printf("%ld %d is thinking\n", get_ms(philo->start_time), philo->id);
 }
 
 /// @brief Creates the threads and controlls them after (might be changed)
@@ -99,7 +101,10 @@ int	create_threads(t_philosopher *philo_list)
 	while (1)
 	{
 		if (current->isdead == true)
+		{
+			// print_lock = true;
 			break ;
+		}
 		current = current->next;
 		if (has_eaten_enough(philo_list) == true)
 			break ;
