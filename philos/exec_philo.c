@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/15 19:09:03 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:33:36 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,50 +32,45 @@ static void	*one_philo(void *param)
 		if (philo->fork == FREE && philo->fork_left->fork == FREE)
 		{
 			eat(philo);
-			if (*(philo->print_lock) == false)
-				printf("%ld %d is sleeping\n",
-					get_ms(philo->start_time), philo->id);
+			print_action(philo, SLEEP);
 			if (dies_during(philo, philo->philo_var.time_to_sleep) == true)
 				break ;
 			wait_ms(philo->philo_var.time_to_sleep);
-			if (*(philo->print_lock) == false)
-				printf("%ld %d is thinking\n",
-					get_ms(philo->start_time), philo->id);
+			print_action(philo, THINK);
 		}
 		else
 		{
 			starving(philo);
 			if (philo->isdead == true)
-				printf("%ld %d died\n", get_ms(philo->start_time), philo->id);
+				print_action(philo, DIE);
 		}
 	}
 	return (0);
 }
 
-//! Make depending on even id 
 static void	do_first(t_philosopher *philo)
 {
-	if (philo->id % 2 != 0 && philo->fork == FREE && philo->fork_left->fork == FREE)
+	if (philo->id % 2 != 0 && philo->fork == FREE
+		&& philo->fork_left->fork == FREE)
 	{
 		eat(philo);
-		if (philo->isdead == false && dies_during(philo, philo->philo_var.time_to_sleep) == false)
+		if (philo->isdead == false
+			&& dies_during(philo, philo->philo_var.time_to_sleep) == false)
 		{
-			if (*(philo->print_lock) == false)
-				printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
+			print_action(philo, SLEEP);
 			wait_ms(philo->philo_var.time_to_sleep);
 		}
 	}
 	else
 	{
-		if (philo->isdead == false && dies_during(philo, philo->philo_var.time_to_sleep) == false)
+		if (philo->isdead == false
+			&& dies_during(philo, philo->philo_var.time_to_sleep) == false)
 		{
-			if (*(philo->print_lock) == false)
-				printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
+			print_action(philo, SLEEP);
 			wait_ms(philo->philo_var.time_to_sleep);
 		}
 	}
-	if (*(philo->print_lock) == false)
-		printf("%ld %d is thinking\n", get_ms(philo->start_time), philo->id);
+	print_action(philo, THINK);
 }
 
 /// @brief Creates the threads and controlls them after (might be changed)
@@ -102,7 +97,6 @@ int	create_threads(t_philosopher *philo_list)
 	{
 		if (current->isdead == true)
 		{
-			// print_lock = true;
 			break ;
 		}
 		current = current->next;
