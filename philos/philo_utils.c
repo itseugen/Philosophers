@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:36:20 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/18 19:22:35 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/18 19:29:30 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	starving(t_philosopher *philo)
 void	eat(t_philosopher *philo)
 {
 	philo->fork = LOCK;
-	if (philo->fork_left->fork == LOCK)
-	{
-		philo->fork = FREE;
-		return ;
-	}
+	// if (philo->fork_left->fork == LOCK)
+	// {
+	// 	philo->fork = FREE;
+	// 	return ;
+	// }
 	philo->fork_left->fork = LOCK;
 	pthread_mutex_lock(&philo->fork_lock);
 	print_action(philo, FORK);
