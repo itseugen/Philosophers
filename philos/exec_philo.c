@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/18 19:13:31 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/18 19:15:57 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ int	create_threads(t_philosopher *philo_list)
 	return (0);
 }
 
+/// @brief Checks if the philos exit
+/// @param philo_list 
 void	monitor_threads(t_philosopher *philo_list)
 {
 	t_philosopher	*current;
@@ -116,7 +118,7 @@ void	monitor_threads(t_philosopher *philo_list)
 		starving(current);
 		if (current->isdead == true)
 		{
-			if (print_lock == false)
+			if (*(current->print_lock) == false)
 				print_action(current, DIE);
 			break ;
 		}
