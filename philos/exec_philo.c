@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/18 19:05:06 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/18 19:11:22 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,7 @@ int	create_threads(t_philosopher *philo_list)
 		if (current->isdead == true)
 		{
 			if (print_lock == false)
-			{
-				print_lock = true;
-				printf("%ld %d died\n", get_ms(current->start_time), current->id);
-			}
+				print_action(current, DIE);
 			break ;
 		}
 		current = current->next;
@@ -123,6 +120,11 @@ int	create_threads(t_philosopher *philo_list)
 		current = current->next;
 	}
 	return (0);
+}
+
+void	monitor_threads(t_philosopher *philo)
+{
+	
 }
 
 /// @brief Checks if all philos have eaten num_has_eaten times
