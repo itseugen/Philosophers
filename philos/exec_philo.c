@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/15 19:38:54 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/18 19:05:06 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void	do_first(t_philosopher *philo);
 static bool	has_eaten_enough(t_philosopher *philo);
+
+//! Idea: Make thread or let mainthread check if philo is dead while thinking
 
 /// @brief The function each philo uses
 /// @param param 
@@ -37,13 +39,14 @@ static void	*one_philo(void *param)
 				break ;
 			wait_ms(philo->philo_var.time_to_sleep);
 			print_action(philo, THINK);
+			// usleep(100);
 		}
-		else
-		{
-			starving(philo);
-			if (philo->isdead == true)
-				print_action(philo, DIE);
-		}
+		// else
+		// {
+		// 	starving(philo);
+		// 	if (philo->isdead == true)
+		// 		print_action(philo, DIE);
+		// }
 	}
 	return (0);
 }
@@ -95,8 +98,14 @@ int	create_threads(t_philosopher *philo_list)
 	current = philo_list;
 	while (1)
 	{
+		starving(current);
 		if (current->isdead == true)
 		{
+			if (print_lock == false)
+			{
+				print_lock = true;
+				printf("%ld %d died\n", get_ms(current->start_time), current->id);
+			}
 			break ;
 		}
 		current = current->next;
