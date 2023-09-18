@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/18 19:11:22 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/18 19:13:31 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,21 @@ int	create_threads(t_philosopher *philo_list)
 		current->print_lock = &print_lock;
 		current = current->next;
 	}
+	monitor_threads(philo_list);
+	current = philo_list;
+	while (current != NULL)
+	{
+		current->isdead = true;
+		pthread_detach(current->thread);
+		current = current->next;
+	}
+	return (0);
+}
+
+void	monitor_threads(t_philosopher *philo_list)
+{
+	t_philosopher	*current;
+
 	current = philo_list;
 	while (1)
 	{
@@ -112,19 +127,6 @@ int	create_threads(t_philosopher *philo_list)
 			current = philo_list;
 		usleep(100);
 	}
-	current = philo_list;
-	while (current != NULL)
-	{
-		current->isdead = true;
-		pthread_detach(current->thread);
-		current = current->next;
-	}
-	return (0);
-}
-
-void	monitor_threads(t_philosopher *philo)
-{
-	
 }
 
 /// @brief Checks if all philos have eaten num_has_eaten times
