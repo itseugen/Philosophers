@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/15 19:12:57 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/18 19:11:46 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int				start_simulation(t_philosopher **philo_list,
 					pthread_mutex_t start_lock);
 void			wait_ms(long ms);
 long			get_ms(struct timeval start_time);
+void			monitor_threads(t_philosopher *philo);
 
 /* ************************************************************************** */
 /*                                Philo Utils                                 */
