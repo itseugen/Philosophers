@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/18 19:15:57 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/18 19:22:50 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	create_threads(t_philosopher *philo_list)
 	return (0);
 }
 
-/// @brief Checks if the philos exit
+/// @brief Checks if the philos should stop
 /// @param philo_list 
 void	monitor_threads(t_philosopher *philo_list)
 {
