@@ -6,16 +6,16 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:13:45 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/14 14:52:42 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/19 14:23:56 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// void	check_leaks(void)
-// {
-// 	system("leaks philo");
-// }
+void	check_leaks(void)
+{
+	system("leaks philo");
+}
 
 int	main(int argc, char *argv[])
 {

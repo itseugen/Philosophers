@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/19 13:45:21 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:30:45 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,11 @@ int	create_threads(t_philosopher *philo_list)
 	while (current != NULL)
 	{
 		current->isdead = true;
+		// pthread_join(current->thread, NULL);
 		pthread_detach(current->thread);
 		current = current->next;
 	}
+	// pthread_mutex_unlock(current->print_lock);
 	pthread_mutex_destroy(&print_lock);
 	return (0);
 }
