@@ -6,7 +6,7 @@
 #    By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/21 13:58:27 by eweiberl          #+#    #+#              #
-#    Updated: 2023/09/19 13:46:38 by eweiberl         ###   ########.fr        #
+#    Updated: 2023/09/19 17:45:24 by eweiberl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = philo
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+# CFLAGS += -fsanitize=thread
 
 SOURCE = main.c
 SOURCE += input/get_input.c
