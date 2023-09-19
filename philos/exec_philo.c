@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/19 15:30:45 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:13:53 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,39 +26,27 @@ static void	*one_philo(void *param)
 
 	philo = (t_philosopher *)param;
 	philo->start_time = get_start_time();
-	philo->last_meal = 0;
+	philo->last_meal = get_ms(philo->start_time);
 	philo->num_eaten = 0;
 	do_first(philo);
 	while (philo->isdead == false)
 	{
-		if (philo->fork == FREE && philo->fork_left->fork == FREE)
-		{
-			eat(philo);
-			print_action(philo, SLEEP);
-			if (dies_during(philo, philo->philo_var.time_to_sleep) == true)
-				break ;
-			wait_ms(philo->philo_var.time_to_sleep);
-			print_action(philo, THINK);
-			// usleep(100);
-		}
-		// else
-		// {
-		// 	starving(philo);
-		// 	if (philo->isdead == true)
-		// 		print_action(philo, DIE);
-		// }
+		eat(philo);
+		print_action(philo, SLEEP);
+		// if (dies_during(philo, philo->philo_var.time_to_sleep) == true)
+		// 	break ;
+		wait_ms(philo->philo_var.time_to_sleep);
+		print_action(philo, THINK);
 	}
 	return (0);
 }
 
 static void	do_first(t_philosopher *philo)
 {
-	if (philo->id % 2 != 0 && philo->fork == FREE
-		&& philo->fork_left->fork == FREE)
+	if (philo->id % 2 != 0)
 	{
 		eat(philo);
-		if (philo->isdead == false
-			&& dies_during(philo, philo->philo_var.time_to_sleep) == false)
+		if (philo->isdead == false)
 		{
 			print_action(philo, SLEEP);
 			wait_ms(philo->philo_var.time_to_sleep);
@@ -66,8 +54,7 @@ static void	do_first(t_philosopher *philo)
 	}
 	else
 	{
-		if (philo->isdead == false
-			&& dies_during(philo, philo->philo_var.time_to_sleep) == false)
+		if (philo->isdead == false)
 		{
 			print_action(philo, SLEEP);
 			wait_ms(philo->philo_var.time_to_sleep);
@@ -117,6 +104,7 @@ void	monitor_threads(t_philosopher *philo_list)
 	t_philosopher	*current;
 
 	current = philo_list;
+	usleep(100);
 	while (1)
 	{
 		starving(current);
@@ -130,7 +118,7 @@ void	monitor_threads(t_philosopher *philo_list)
 			break ;
 		if (current == NULL)
 			current = philo_list;
-		usleep(100);
+		// usleep(100);
 	}
 }
 
