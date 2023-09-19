@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/19 13:37:05 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:59:27 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ typedef struct s_philosopher
 {
 	pthread_t				thread;
 	int						id;
-	int						fork;
 	struct s_philosopher	*fork_left;
 	struct s_philosopher	*next;
 	pthread_mutex_t			fork_lock;
