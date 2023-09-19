@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:36:20 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/18 19:29:30 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/19 13:46:24 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,20 @@ bool	dies_during(t_philosopher *philo, int action)
 
 void	print_action(t_philosopher *philo, int content)
 {
-	if (*(philo->print_lock) == false)
+	pthread_mutex_lock(philo->print_lock);
+	if (content == FORK)
+		printf("%ld %d has taken a fork\n",
+			get_ms(philo->start_time), philo->id);
+	else if (content == EAT)
+		printf("%ld %d is eating\n", get_ms(philo->start_time), philo->id);
+	else if (content == SLEEP)
+		printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
+	else if (content == THINK)
+		printf("%ld %d is thinking\n", get_ms(philo->start_time), philo->id);
+	else if (content == DIE)
 	{
-		if (content == FORK)
-			printf("%ld %d has taken a fork\n",
-				get_ms(philo->start_time), philo->id);
-		else if (content == EAT)
-			printf("%ld %d is eating\n", get_ms(philo->start_time), philo->id);
-		else if (content == SLEEP)
-			printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
-		else if (content == THINK)
-			printf("%ld %d is thinking\n", get_ms(philo->start_time), philo->id);
-		else if (content == DIE)
-		{
-			*(philo->print_lock) = true;
-			printf("%ld %d died\n", get_ms(philo->start_time), philo->id);
-		}
+		printf("%ld %d died\n", get_ms(philo->start_time), philo->id);
+		return ;
 	}
+	pthread_mutex_unlock(philo->print_lock);
 }
