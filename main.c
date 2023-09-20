@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:13:45 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/19 14:23:56 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:01:21 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	check_leaks(void)
 {
-	system("leaks philo");
+	system("leaks ./philo");
 }
 
 int	main(int argc, char *argv[])
