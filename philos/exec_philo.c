@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/19 18:13:53 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/20 15:55:29 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	*one_philo(void *param)
 
 static void	do_first(t_philosopher *philo)
 {
+	print_action(philo, THINK);
 	if (philo->id % 2 != 0)
 	{
 		eat(philo);
@@ -66,6 +67,8 @@ static void	do_first(t_philosopher *philo)
 /// @brief Creates the threads and controlls them after (might be changed)
 /// @param philo_list 
 /// @return 
+//! If weird segfaults occure, make sure to make current = philo list
+//!before freeing the forks
 int	create_threads(t_philosopher *philo_list)
 {
 	t_philosopher	*current;
@@ -88,6 +91,8 @@ int	create_threads(t_philosopher *philo_list)
 	while (current != NULL)
 	{
 		current->isdead = true;
+		pthread_mutex_unlock(&current->fork_lock);
+		pthread_mutex_unlock(&current->fork_left->fork_lock);
 		// pthread_join(current->thread, NULL);
 		pthread_detach(current->thread);
 		current = current->next;
