@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/20 19:21:51 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/20 19:42:58 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_philosopher
 	pthread_mutex_t			fork_lock;
 	t_philo_var				philo_var;
 	struct timeval			start_time;
+	struct timeval			*main_start;
 	bool					isdead;
 	int						num_eaten;
 	long					last_meal;
@@ -91,6 +92,7 @@ void			starving(t_philosopher *philo);
 void			eat(t_philosopher *philo);
 bool			dies_during(t_philosopher *philo, int action);
 void			print_action(t_philosopher *philo, int content);
+bool			has_eaten_enough(t_philosopher *philo);
 
 /* ************************************************************************** */
 /*                                  Utils                                     */

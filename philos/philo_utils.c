@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:36:20 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/20 15:46:49 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/20 19:42:42 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,23 @@ void	print_action(t_philosopher *philo, int content)
 		return ;
 	}
 	pthread_mutex_unlock(philo->print_lock);
+}
+
+/// @brief Checks if all philos have eaten num_has_eaten times
+/// @param philo 
+/// @return true if all philos have eaten
+bool	has_eaten_enough(t_philosopher *philo)
+{
+	t_philosopher	*current;
+
+	current = philo;
+	if (current->philo_var.num_has_to_eat == -2)
+		return (false);
+	while (current != NULL)
+	{
+		if (current->num_eaten < current->philo_var.num_has_to_eat)
+			return (false);
+		current = current->next;
+	}
+	return (true);
 }
