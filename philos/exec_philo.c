@@ -6,14 +6,13 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/20 19:22:10 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/20 19:43:12 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
 static void	do_first(t_philosopher *philo);
-static bool	has_eaten_enough(t_philosopher *philo);
 
 //! Idea: Make thread or let mainthread check if philo is dead while thinking
 
@@ -27,7 +26,8 @@ static void	*one_philo(void *param)
 	philo = (t_philosopher *)param;
 	pthread_mutex_lock(philo->print_lock);
 	pthread_mutex_unlock(philo->print_lock);
-	philo->start_time = get_start_time();
+	// philo->start_time = get_start_time();
+	philo->start_time = *(philo->main_start);
 	philo->last_meal = get_ms(philo->start_time);
 	philo->num_eaten = 0;
 	do_first(philo);
@@ -35,8 +35,6 @@ static void	*one_philo(void *param)
 	{
 		eat(philo);
 		print_action(philo, SLEEP);
-		// if (dies_during(philo, philo->philo_var.time_to_sleep) == true)
-		// 	break ;
 		wait_ms(philo->philo_var.time_to_sleep);
 		print_action(philo, THINK);
 	}
@@ -75,6 +73,7 @@ int	create_threads(t_philosopher *philo_list)
 {
 	t_philosopher	*current;
 	pthread_mutex_t	print_lock;
+	struct timeval	main_start;
 
 	if (pthread_mutex_init(&print_lock, NULL) != 0)
 		return (printf("mutex creation\n"), 1);
@@ -87,8 +86,10 @@ int	create_threads(t_philosopher *philo_list)
 		if (pthread_create(&(current->thread), NULL, one_philo, current) != 0)
 			return (printf("pthread creation\n"), 1);
 		current->print_lock = &print_lock;
+		current->main_start = &main_start;
 		current = current->next;
 	}
+	main_start = get_start_time();
 	pthread_mutex_unlock(&print_lock);
 	monitor_threads(philo_list);
 	current = philo_list;
@@ -113,7 +114,8 @@ void	monitor_threads(t_philosopher *philo_list)
 	t_philosopher	*current;
 
 	current = philo_list;
-	usleep(1000);
+	// usleep(1000);
+	wait_ms(current->philo_var.time_to_die - 10);
 	while (1)
 	{
 		starving(current);
@@ -129,23 +131,4 @@ void	monitor_threads(t_philosopher *philo_list)
 			current = philo_list;
 		// usleep(100);
 	}
-}
-
-/// @brief Checks if all philos have eaten num_has_eaten times
-/// @param philo 
-/// @return true if all philos have eaten
-static bool	has_eaten_enough(t_philosopher *philo)
-{
-	t_philosopher	*current;
-
-	current = philo;
-	if (current->philo_var.num_has_to_eat == -2)
-		return (false);
-	while (current != NULL)
-	{
-		if (current->num_eaten < current->philo_var.num_has_to_eat)
-			return (false);
-		current = current->next;
-	}
-	return (true);
 }
