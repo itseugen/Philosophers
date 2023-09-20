@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 16:54:17 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/20 15:55:29 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/20 19:22:10 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static void	*one_philo(void *param)
 	t_philosopher	*philo;
 
 	philo = (t_philosopher *)param;
+	pthread_mutex_lock(philo->print_lock);
+	pthread_mutex_unlock(philo->print_lock);
 	philo->start_time = get_start_time();
 	philo->last_meal = get_ms(philo->start_time);
 	philo->num_eaten = 0;
@@ -77,6 +79,7 @@ int	create_threads(t_philosopher *philo_list)
 	if (pthread_mutex_init(&print_lock, NULL) != 0)
 		return (printf("mutex creation\n"), 1);
 	current = philo_list;
+	pthread_mutex_lock(&print_lock);
 	while (current != NULL)
 	{
 		if (pthread_mutex_init(&(current->fork_lock), NULL) != 0)
@@ -86,6 +89,7 @@ int	create_threads(t_philosopher *philo_list)
 		current->print_lock = &print_lock;
 		current = current->next;
 	}
+	pthread_mutex_unlock(&print_lock);
 	monitor_threads(philo_list);
 	current = philo_list;
 	while (current != NULL)
@@ -109,7 +113,7 @@ void	monitor_threads(t_philosopher *philo_list)
 	t_philosopher	*current;
 
 	current = philo_list;
-	usleep(100);
+	usleep(1000);
 	while (1)
 	{
 		starving(current);
