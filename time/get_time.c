@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:03 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/11 16:28:54 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:21:03 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	wait_ms(long ms)
 {
 	struct timeval	start_time;
 
+	if (ms < 0)
+		return ;
 	gettimeofday(&start_time, NULL);
 	while (get_ms(start_time) < ms)
 		usleep(100);
