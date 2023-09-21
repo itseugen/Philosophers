@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:42:28 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/21 17:46:17 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:35:43 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,21 +78,15 @@ void	free_philos(t_philosopher **philo_list)
 	current = *philo_list;
 	current = current->next;
 	free_me = *philo_list;
-	if (pthread_mutex_destroy(&(free_me->fork_lock)) != 0)
-	{
-		pthread_mutex_unlock(&(free_me->fork_lock));
-		pthread_mutex_destroy(&(free_me->fork_lock));
-	}
+	pthread_mutex_destroy(&(free_me->fork_lock));
+	pthread_mutex_destroy(&(free_me->var_lock));
 	free(free_me);
 	while (current != NULL)
 	{
 		free_me = current;
 		current = current->next;
-		if (pthread_mutex_destroy(&(free_me->fork_lock)) != 0)
-		{
-			pthread_mutex_unlock(&(free_me->fork_lock));
-			pthread_mutex_destroy(&(free_me->fork_lock));
-		}
+		pthread_mutex_destroy(&(free_me->fork_lock));
+		pthread_mutex_destroy(&(free_me->var_lock));
 		free(free_me);
 	}
 	*philo_list = NULL;
