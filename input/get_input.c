@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:17:04 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/14 15:38:21 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/21 21:18:50 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ int	get_input(int argc, char *argv[], t_philo_var *philo_var)
 		|| philo_var->time_to_eat == -1 || philo_var->time_to_sleep == -1
 		|| philo_var->num_has_to_eat == -1)
 		return (1);
+	if (philo_var->num_of_philo > 200)
+	{
+		printf("\033[0;31m");
+		printf("\t\tWARNING\n");
+		printf("\033[0m");
+		printf("Too many philosophers might lead to instability\n");
+		printf("Press Controll + C to stop the program\n");
+		wait_ms(3000);
+	}
 	return (0);
 }
 
