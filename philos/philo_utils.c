@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 18:08:07 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/21 18:18:11 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:56:47 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	starving(t_philosopher *philo)
 		return ;
 	pthread_mutex_lock(&philo->var_lock);
 	time_since_last_meal = get_ms(philo->start_time) - philo->last_meal;
-	pthread_mutex_unlock(&philo->var_lock);
 	if (time_since_last_meal >= philo->philo_var.time_to_die)
 	{
+		pthread_mutex_unlock(&philo->var_lock);
 		pthread_mutex_lock(philo->print_lock);
-		printf("%ld %d died\n", get_ms(philo->start_time), philo->id); 
+		printf("%ld %d died\n", get_ms(philo->start_time), philo->id);
 		pthread_mutex_lock(&philo->var_lock);
 		philo->isdead = true;
 		pthread_mutex_unlock(&philo->var_lock);
