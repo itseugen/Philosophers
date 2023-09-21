@@ -6,7 +6,7 @@
 #    By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/21 13:58:27 by eweiberl          #+#    #+#              #
-#    Updated: 2023/09/21 19:30:39 by eweiberl         ###   ########.fr        #
+#    Updated: 2023/09/21 19:48:15 by eweiberl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,10 +26,8 @@ OBJS = $(SOURCE:.c=.o)
 
 all: $(NAME)
 
-dataraces: dataraces_flag re
-
-dataraces_flag:
-	$(eval CFLAGS += -fsanitize=thread)
+dataraces: CFLAGS += -fsanitize=thread
+dataraces: re
 
 debian: CFLAGS += -pthread
 debian: re
