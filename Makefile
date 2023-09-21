@@ -6,7 +6,7 @@
 #    By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/21 13:58:27 by eweiberl          #+#    #+#              #
-#    Updated: 2023/09/21 19:48:15 by eweiberl         ###   ########.fr        #
+#    Updated: 2023/09/21 20:44:03 by eweiberl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,8 +41,8 @@ $(NAME): $(OBJS)
 nflag:
 	$(CC) -o $(NAME) $(SOURCE)
 
-debug: $(SOURCE) $(LIBFT)
-	$(CC) -g -o $(NAME) $(SOURCE)
+debug: $(SOURCE)
+	$(CC) -g -arch x86_64 -o $(NAME) $(SOURCE)
 
 bonus: all
 
