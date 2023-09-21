@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:11 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/21 18:24:30 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:33:52 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 static int	create_threads(t_philosopher *philo_list,
 				pthread_mutex_t *print_lock, struct timeval main_start);
+static void	monitor_threads(t_philosopher *philo_list);
+static void	set_threads_to_dead(t_philosopher *philo_list);
+static void	join_threads(t_philosopher *philo_list);
 
 /// @brief Handles the simulation of the philos
 /// @param philo_list 
@@ -31,6 +34,11 @@ int	simulation(t_philosopher *philo_list)
 	main_start = get_start_time();
 	//* Starting the threads
 	pthread_mutex_unlock(&print_lock);
+	monitor_threads(philo_list);
+	set_threads_to_dead(philo_list);
+	pthread_mutex_unlock(&print_lock);
+	join_threads(philo_list);
+	pthread_mutex_destroy(&print_lock);
 }
 
 /// @brief Checks if a philo has dies or all have eaten enough
@@ -52,7 +60,10 @@ static void	monitor_threads(t_philosopher *philo_list)
 		}
 		pthread_mutex_unlock(&current->var_lock);
 		if (has_eaten_enough(philo_list) == true)
+		{
+			pthread_mutex_lock(current->print_lock);
 			break ;
+		}
 		current = current->next;
 		if (current == NULL)
 			current = philo_list;
@@ -79,6 +90,34 @@ static int	create_threads(t_philosopher *philo_list,
 		current->main_start = &main_start;
 		if (pthread_create(&(current->thread), NULL, philosopher, current) != 0)
 			return (printf("pthread creation\n"), 1);
+		current = current->next;
+	}
+}
+
+static void	set_threads_to_dead(t_philosopher *philo_list)
+{
+	t_philosopher	*current;
+
+	current = philo_list;
+	while (current != NULL)
+	{
+		pthread_mutex_lock(&current->var_lock);
+		current->isdead = true;
+		pthread_mutex_unlock(&current->var_lock);
+		current = current->next;
+	}
+	wait_ms(philo_list->philo_var.time_to_eat
+		+ philo_list->philo_var.time_to_sleep + 10);
+}
+
+static void	join_threads(t_philosopher *philo_list)
+{
+	t_philosopher	*current;
+
+	current = philo_list;
+	while (current != NULL)
+	{
+		pthread_join(current->thread, NULL);
 		current = current->next;
 	}
 }
