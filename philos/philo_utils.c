@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 18:08:07 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/21 19:56:47 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:04:33 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	starving(t_philosopher *philo)
 		philo->isdead = true;
 		pthread_mutex_unlock(&philo->var_lock);
 	}
+	else
+		pthread_mutex_unlock(&philo->var_lock);
 }
 
 /// @brief makes the philo eat
