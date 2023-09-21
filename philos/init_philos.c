@@ -5,21 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/05 14:05:28 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/19 18:01:10 by eweiberl         ###   ########.fr       */
+/*   Created: 2023/09/21 17:42:28 by eweiberl          #+#    #+#             */
+/*   Updated: 2023/09/21 18:49:45 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-static int				add_philo(t_philosopher **philo_list, int id,
-							t_philo_var philo_var);
+static int				add_philo(t_philosopher **philo_list,
+							int id, t_philo_var philo_var);
 static t_philosopher	*get_last_philo(t_philosopher **philo_list);
 
-/// @brief Allocates the philosophers
-/// @param philo_var 
-/// @return The list of philos or NULL if malloc fails
-t_philosopher	*init_philo(t_philo_var philo_var)
+t_philosopher	*init_philos(t_philo_var philo_var)
 {
 	int				i;
 	t_philosopher	*philo_list;
@@ -29,7 +26,6 @@ t_philosopher	*init_philo(t_philo_var philo_var)
 		return (perror("malloc fail"), NULL);
 	philo_list->next = NULL;
 	philo_list->id = 1;
-	// philo_list->fork = FREE;
 	philo_list->philo_var = philo_var;
 	i = 0;
 	while (i < philo_var.num_of_philo - 1)
@@ -70,7 +66,6 @@ static int	add_philo(t_philosopher **philo_list, int id, t_philo_var philo_var)
 	if (new_philo == NULL)
 		return (-1);
 	new_philo->id = id;
-	// new_philo->fork = FREE;
 	last_philo->next = new_philo;
 	new_philo->fork_left = last_philo;
 	new_philo->philo_var = philo_var;
@@ -87,21 +82,15 @@ void	free_philos(t_philosopher **philo_list)
 	current = *philo_list;
 	current = current->next;
 	free_me = *philo_list;
-	if (pthread_mutex_destroy(&(free_me->fork_lock)) != 0)
-	{
-		pthread_mutex_unlock(&(free_me->fork_lock));
-		pthread_mutex_destroy(&(free_me->fork_lock));
-	}
+	pthread_mutex_destroy(&(free_me->fork_lock));
+	pthread_mutex_destroy(&(free_me->var_lock));
 	free(free_me);
 	while (current != NULL)
 	{
 		free_me = current;
 		current = current->next;
-		if (pthread_mutex_destroy(&(free_me->fork_lock)) != 0)
-		{
-			pthread_mutex_unlock(&(free_me->fork_lock));
-			pthread_mutex_destroy(&(free_me->fork_lock));
-		}
+		pthread_mutex_destroy(&(free_me->fork_lock));
+		pthread_mutex_destroy(&(free_me->var_lock));
 		free(free_me);
 	}
 	*philo_list = NULL;

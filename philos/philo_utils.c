@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/12 15:36:20 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/20 19:42:42 by eweiberl         ###   ########.fr       */
+/*   Created: 2023/09/21 18:08:07 by eweiberl          #+#    #+#             */
+/*   Updated: 2023/09/21 18:18:11 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,17 @@ void	starving(t_philosopher *philo)
 
 	if (philo == NULL)
 		return ;
+	pthread_mutex_lock(&philo->var_lock);
 	time_since_last_meal = get_ms(philo->start_time) - philo->last_meal;
+	pthread_mutex_unlock(&philo->var_lock);
 	if (time_since_last_meal >= philo->philo_var.time_to_die)
+	{
+		pthread_mutex_lock(philo->print_lock);
+		printf("%ld %d died\n", get_ms(philo->start_time), philo->id); 
+		pthread_mutex_lock(&philo->var_lock);
 		philo->isdead = true;
+		pthread_mutex_unlock(&philo->var_lock);
+	}
 }
 
 /// @brief makes the philo eat
@@ -34,35 +42,19 @@ void	eat(t_philosopher *philo)
 	pthread_mutex_lock(&philo->fork_left->fork_lock);
 	print_action(philo, FORK);
 	print_action(philo, EAT);
+	pthread_mutex_lock(&philo->var_lock);
 	philo->last_meal = get_ms(philo->start_time);
 	philo->num_eaten++;
+	pthread_mutex_unlock(&philo->var_lock);
 	wait_ms(philo->philo_var.time_to_eat);
 	pthread_mutex_unlock(&philo->fork_lock);
 	pthread_mutex_unlock(&philo->fork_left->fork_lock);
 }
 
-/// @brief Checks if the philo dies during his following action
-/// @param philo 
-/// @param action the time of the action about to be performed
-/// @return returns true if he dies and falls if he does not
-// bool	dies_during(t_philosopher *philo, int action)
-// {
-// 	if (get_ms(philo->start_time) - philo->last_meal + action
-// 		> philo->philo_var.time_to_die)
-// 	{
-// 		wait_ms(philo->philo_var.time_to_die
-// 			- (get_ms(philo->start_time) - philo->last_meal));
-// 		philo->isdead = true;
-// 		print_action(philo, DIE);
-// 		return (true);
-// 	}
-// 	return (false);
-// }
-
 void	print_action(t_philosopher *philo, int content)
 {
 	pthread_mutex_lock(philo->print_lock);
-	// starving(philo);
+	pthread_mutex_lock(&philo->var_lock);
 	if (content == FORK && philo->isdead != true)
 		printf("%ld %d has taken a fork\n",
 			get_ms(philo->start_time), philo->id);
@@ -72,17 +64,10 @@ void	print_action(t_philosopher *philo, int content)
 		printf("%ld %d is sleeping\n", get_ms(philo->start_time), philo->id);
 	else if (content == THINK && philo->isdead != true)
 		printf("%ld %d is thinking\n", get_ms(philo->start_time), philo->id);
-	else if (content == DIE)
-	{
-		printf("%ld %d died\n", get_ms(philo->start_time), philo->id);
-		return ;
-	}
+	pthread_mutex_unlock(&philo->var_lock);
 	pthread_mutex_unlock(philo->print_lock);
 }
 
-/// @brief Checks if all philos have eaten num_has_eaten times
-/// @param philo 
-/// @return true if all philos have eaten
 bool	has_eaten_enough(t_philosopher *philo)
 {
 	t_philosopher	*current;
@@ -92,8 +77,13 @@ bool	has_eaten_enough(t_philosopher *philo)
 		return (false);
 	while (current != NULL)
 	{
+		pthread_mutex_lock(&current->var_lock);
 		if (current->num_eaten < current->philo_var.num_has_to_eat)
+		{
+			pthread_mutex_unlock(&current->var_lock);
 			return (false);
+		}
+		pthread_mutex_unlock(&current->var_lock);
 		current = current->next;
 	}
 	return (true);

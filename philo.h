@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/21 18:01:02 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:57:35 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,11 @@ typedef struct s_philosopher
 
 int				get_input(int argc, char *argv[], t_philo_var *philo_var);
 void			free_philos(t_philosopher **philo_list);
-t_philosopher	*init_philo(t_philo_var philo_var);
-int				create_threads(t_philosopher *philo_list);
-int				start_simulation(t_philosopher **philo_list,
-					pthread_mutex_t start_lock);
 void			wait_ms(long ms);
 long			get_ms(struct timeval start_time);
-void			monitor_threads(t_philosopher *philo_list);
-
 void			*philosopher(void *param);
+int				simulation(t_philosopher *philo_list);
+t_philosopher	*init_philos(t_philo_var philo_var);
 
 /* ************************************************************************** */
 /*                                Philo Utils                                 */
