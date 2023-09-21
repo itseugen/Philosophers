@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/20 19:42:58 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:01:02 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_philosopher
 	int						num_eaten;
 	long					last_meal;
 	pthread_mutex_t			*print_lock;
+	pthread_mutex_t			var_lock;
 }	t_philosopher;
 
 /* ************************************************************************** */
@@ -83,6 +84,8 @@ int				start_simulation(t_philosopher **philo_list,
 void			wait_ms(long ms);
 long			get_ms(struct timeval start_time);
 void			monitor_threads(t_philosopher *philo_list);
+
+void			*philosopher(void *param);
 
 /* ************************************************************************** */
 /*                                Philo Utils                                 */
