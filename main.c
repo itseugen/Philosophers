@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:13:45 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/20 16:01:21 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:54:29 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,19 @@ int	main(int argc, char *argv[])
 	// printf("Time to eat: %d\n", philo_var.time_to_eat);
 	// printf("Time to sleep: %d\n", philo_var.time_to_sleep);
 	// printf("Num has to eat: %d\n", philo_var.num_has_to_eat);
-	philo_list = init_philo(philo_var);
+	philo_list = init_philos(philo_var);
 	if (philo_list == NULL)
 		return (1);
+	if (simulation(philo_list) == 1)
+		return (free_philos(&philo_list), 1);
 	// while (philo_list->next != NULL)
 	// {
 	// 	printf("Philo ID: %d\n", philo_list->id);
 	// 	philo_list = philo_list->next;
 	// }
 	// printf("Philo ID: %d\n", philo_list->id);
-	if (create_threads(philo_list) == 1)
-		return (free_philos(&philo_list), 1);
+	// if (create_threads(philo_list) == 1)
+	// 	return (free_philos(&philo_list), 1);
 	free_philos(&philo_list);
 	return (0);
 }
