@@ -6,7 +6,7 @@
 #    By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/21 13:58:27 by eweiberl          #+#    #+#              #
-#    Updated: 2023/09/20 20:11:42 by eweiberl         ###   ########.fr        #
+#    Updated: 2023/09/21 19:30:39 by eweiberl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,14 @@ SOURCE += time/get_time.c
 OBJS = $(SOURCE:.c=.o)
 
 all: $(NAME)
+
+dataraces: dataraces_flag re
+
+dataraces_flag:
+	$(eval CFLAGS += -fsanitize=thread)
+
+debian: CFLAGS += -pthread
+debian: re
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $@
