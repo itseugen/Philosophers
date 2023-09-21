@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:03 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/21 18:06:53 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:59:40 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,17 @@ void	*philosopher(void *param)
 	philo->num_eaten = 0;
 	pthread_mutex_unlock(&philo->var_lock);
 	do_first_action(philo);
+	pthread_mutex_lock(&philo->var_lock);
 	while (philo->isdead == false)
 	{
+		pthread_mutex_unlock(&philo->var_lock);
 		eat(philo);
 		print_action(philo, SLEEP);
 		wait_ms(philo->philo_var.time_to_sleep);
 		print_action(philo, THINK);
+		pthread_mutex_lock(&philo->var_lock);
 	}
+	pthread_mutex_unlock(&philo->var_lock);
 	return (0);
 }
 
