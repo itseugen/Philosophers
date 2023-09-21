@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:13:45 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/21 19:50:15 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:50:29 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,6 @@ int	main(int argc, char *argv[])
 		return (1);
 	if (simulation(philo_list) == 1)
 		return (free_philos(&philo_list), 1);
-	// while (philo_list->next != NULL)
-	// {
-	// 	printf("Philo ID: %d\n", philo_list->id);
-	// 	philo_list = philo_list->next;
-	// }
-	// printf("Philo ID: %d\n", philo_list->id);
-	// if (create_threads(philo_list) == 1)
-	// 	return (free_philos(&philo_list), 1);
 	free_philos(&philo_list);
 	return (0);
 }
