@@ -6,15 +6,13 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:03 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/21 20:05:33 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:05:44 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
 static void	do_first_action(t_philosopher *philo);
-
-//! Starving should print death
 
 void	*philosopher(void *param)
 {

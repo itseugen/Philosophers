@@ -6,11 +6,13 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 18:08:07 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/21 20:17:55 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/22 14:27:59 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+static int	even_fork_lock(t_philosopher *philo);
 
 /// @brief Checks if the philosopher should be dead
 /// @param philo 
@@ -39,16 +41,22 @@ void	starving(t_philosopher *philo)
 /// @param philo 
 void	eat(t_philosopher *philo)
 {
-	pthread_mutex_lock(&philo->fork_lock);
-	print_action(philo, FORK);
-	if (&(philo->fork_left->fork_lock) == &(philo->fork_lock))
+	if (philo->id % 2 != 0)
 	{
-		wait_ms(philo->philo_var.time_to_die + 10);
-		pthread_mutex_unlock(&philo->fork_lock);
-		return ;
+		pthread_mutex_lock(&philo->fork_lock);
+		print_action(philo, FORK);
+		if (&(philo->fork_left->fork_lock) == &(philo->fork_lock))
+		{
+			wait_ms(philo->philo_var.time_to_die + 10);
+			pthread_mutex_unlock(&philo->fork_lock);
+			return ;
+		}
+		pthread_mutex_lock(&philo->fork_left->fork_lock);
+		print_action(philo, FORK);
 	}
-	pthread_mutex_lock(&philo->fork_left->fork_lock);
-	print_action(philo, FORK);
+	else
+		if (even_fork_lock(philo) == 1)
+			return ;
 	print_action(philo, EAT);
 	pthread_mutex_lock(&philo->var_lock);
 	philo->last_meal = get_ms(philo->start_time);
@@ -57,6 +65,21 @@ void	eat(t_philosopher *philo)
 	wait_ms(philo->philo_var.time_to_eat);
 	pthread_mutex_unlock(&philo->fork_lock);
 	pthread_mutex_unlock(&philo->fork_left->fork_lock);
+}
+
+static int	even_fork_lock(t_philosopher *philo)
+{
+	pthread_mutex_lock(&philo->fork_left->fork_lock);
+	print_action(philo, FORK);
+	if (&(philo->fork_left->fork_lock) == &(philo->fork_lock))
+	{
+		wait_ms(philo->philo_var.time_to_die + 10);
+		pthread_mutex_unlock(&philo->fork_lock);
+		return (1);
+	}
+	pthread_mutex_lock(&philo->fork_lock);
+	print_action(philo, FORK);
+	return (0);
 }
 
 void	print_action(t_philosopher *philo, int content)
