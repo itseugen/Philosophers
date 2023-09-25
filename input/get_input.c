@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:17:04 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/25 19:33:31 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/25 21:21:31 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	get_input(int argc, char *argv[], t_philo_var *philo_var)
 		philo_var->num_has_to_eat = get_argv(argv[5]);
 	if (philo_var->num_of_philo == -1 || philo_var->time_to_die < 1
 		|| philo_var->time_to_eat < 1 || philo_var->time_to_sleep < 1
-		|| philo_var->num_has_to_eat < 1)
+		|| (philo_var->num_has_to_eat < 1 && philo_var->num_has_to_eat != -2))
 		return (1);
 	if (philo_var->num_of_philo < 1)
 		return (1);
