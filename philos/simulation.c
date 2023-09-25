@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:11 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/25 19:23:58 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/25 21:23:43 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	simulation(t_philosopher *philo_list)
 	if (create_threads(philo_list, &print_lock, &main_start) != 0)
 		return (1);
 	main_start = get_start_time();
-	//* Starting the threads
 	pthread_mutex_unlock(&print_lock);
 	monitor_threads(philo_list);
 	set_threads_to_dead(philo_list);
