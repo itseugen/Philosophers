@@ -6,7 +6,7 @@
 #    By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/21 13:58:27 by eweiberl          #+#    #+#              #
-#    Updated: 2023/09/21 20:44:03 by eweiberl         ###   ########.fr        #
+#    Updated: 2023/09/25 21:13:50 by eweiberl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,8 @@ debian: re
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
-nflag:
-	$(CC) -o $(NAME) $(SOURCE)
+nflag: CFLAGS =
+nflag: re
 
 debug: $(SOURCE)
 	$(CC) -g -arch x86_64 -o $(NAME) $(SOURCE)
