@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:11 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/21 20:31:05 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/25 19:23:58 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	monitor_threads(t_philosopher *philo_list)
 	t_philosopher	*current;
 
 	current = philo_list;
-	wait_ms(current->philo_var.time_to_die - 15);
+	wait_ms(current->philo_var.time_to_die);
 	while (1)
 	{
 		starving(current);
