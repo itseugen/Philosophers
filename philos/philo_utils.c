@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 18:08:07 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/22 15:37:20 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/25 19:08:23 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	eat(t_philosopher *philo)
 
 static int	even_fork_lock(t_philosopher *philo)
 {
+	usleep(1000);
 	pthread_mutex_lock(&philo->fork_left->fork_lock);
 	print_action(philo, FORK);
 	if (&(philo->fork_left->fork_lock) == &(philo->fork_lock))
