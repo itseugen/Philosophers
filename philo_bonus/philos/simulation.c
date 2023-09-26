@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:11 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 16:05:08 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:26:01 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int	create_threads(t_philosopher *philo_list, sem_t *print_lock,
 				struct timeval *main_start, sem_t *fork_lock);
 static void	monitor_threads(t_philosopher *philo_list);
 static void	set_threads_to_dead(t_philosopher *philo_list);
-static void	join_threads(t_philosopher *philo_list);
 
 /// @brief Handles the simulation of the philos
 /// @param philo_list 
@@ -39,8 +38,7 @@ int	simulation(t_philosopher *philo_list)
 	sem_post(&print_lock);
 	monitor_threads(philo_list);
 	set_threads_to_dead(philo_list);
-	sem_wait(&print_lock);
-	join_threads(philo_list);
+	sem_post(&print_lock);
 	sem_close(&print_lock);
 	return (0);
 }
@@ -118,16 +116,4 @@ static void	set_threads_to_dead(t_philosopher *philo_list)
 	}
 	wait_ms(philo_list->philo_var.time_to_eat
 		+ philo_list->philo_var.time_to_sleep + 10);
-}
-
-static void	join_threads(t_philosopher *philo_list)
-{
-	t_philosopher	*current;
-
-	current = philo_list;
-	while (current != NULL)
-	{
-		pthread_join(current->thread, NULL);
-		current = current->next;
-	}
 }
