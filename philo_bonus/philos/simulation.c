@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:11 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 15:44:32 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:48:07 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static int	create_threads(t_philosopher *philo_list,
 					sem_t *print_lock, struct timeval *main_start)
 {
 	t_philosopher	*current;
+	pid_t			pro_id;
 
 	current = philo_list;
 	while (current != NULL)
@@ -89,8 +90,11 @@ static int	create_threads(t_philosopher *philo_list,
 			return (printf("sem open\n"), 1);
 		current->print_lock = print_lock;
 		current->main_start = main_start;
-		if (pthread_create(&(current->thread), NULL, philosopher, current) != 0)
-			return (printf("pthread creation\n"), 1);
+		pro_id = fork();
+		if (pro_id == -1)
+			return (printf("Fork fail\n"), 1);
+		if (pro_id == 0)
+			philosopher(current);
 		current = current->next;
 	}
 	return (0);
