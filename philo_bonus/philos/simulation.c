@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:11 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 15:39:29 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:44:32 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,16 @@ static void	monitor_threads(t_philosopher *philo_list)
 	while (1)
 	{
 		starving(current);
-		pthread_mutex_lock(&current->var_lock);
+		sem_wait(&current->var_lock);
 		if (current->isdead == true)
 		{
-			pthread_mutex_unlock(&current->var_lock);
+			sem_post(&current->var_lock);
 			break ;
 		}
-		pthread_mutex_unlock(&current->var_lock);
+		sem_post(&current->var_lock);
 		if (has_eaten_enough(philo_list) == true)
 		{
-			pthread_mutex_lock(current->print_lock);
+			sem_wait(current->print_lock);
 			break ;
 		}
 		current = current->next;
@@ -83,9 +83,10 @@ static int	create_threads(t_philosopher *philo_list,
 	current = philo_list;
 	while (current != NULL)
 	{
-		current->var_lock = sem_open("/print_lock", O_CREAT | O_EXCL, 0644, 1);
-		if (pthread_mutex_init(&(current->var_lock), NULL) != 0)
-			return (printf("mutex creation\n"), 1);
+		current->var_lock = sem_open(current->var_lock_name,
+				O_CREAT | O_EXCL, 0644, 1);
+		if (current->var_lock == SEM_FAILED)
+			return (printf("sem open\n"), 1);
 		current->print_lock = print_lock;
 		current->main_start = main_start;
 		if (pthread_create(&(current->thread), NULL, philosopher, current) != 0)
@@ -102,9 +103,9 @@ static void	set_threads_to_dead(t_philosopher *philo_list)
 	current = philo_list;
 	while (current != NULL)
 	{
-		pthread_mutex_lock(&current->var_lock);
+		sem_wait(&current->var_lock);
 		current->isdead = true;
-		pthread_mutex_unlock(&current->var_lock);
+		sem_post(&current->var_lock);
 		current = current->next;
 	}
 	wait_ms(philo_list->philo_var.time_to_eat
