@@ -6,11 +6,11 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 11:32:25 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/05/02 15:44:00 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:05:03 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mem.h"
+#include "../philo_bonus.h"
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {

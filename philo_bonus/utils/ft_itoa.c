@@ -6,11 +6,11 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:33:46 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/05/02 15:43:26 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:05:00 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "math.h"
+#include "../philo_bonus.h"
 
 static int	ft_nbr_len(int n);
 

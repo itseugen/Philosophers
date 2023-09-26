@@ -6,11 +6,11 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:47:44 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/05/02 15:44:39 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:05:06 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "string.h"
+#include "../philo_bonus.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

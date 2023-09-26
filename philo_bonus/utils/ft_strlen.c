@@ -6,11 +6,11 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:03:05 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/08/19 14:37:33 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:05:13 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "string.h"
+#include "../philo_bonus.h"
 
 size_t	ft_strlen(const char *s)
 {
