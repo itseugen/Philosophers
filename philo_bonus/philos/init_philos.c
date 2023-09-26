@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:42:28 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 15:06:07 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:14:03 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_philosopher	*init_philos(t_philo_var philo_var)
 	philo_list->philo_var = philo_var;
 	philo_list->var_lock_name = get_sem_name(philo_list->id);
 	if (philo_list->var_lock_name == NULL)
-		return (NULL);
+		return (free(philo_list), NULL);
 	i = 0;
 	while (i < philo_var.num_of_philo - 1)
 	{
