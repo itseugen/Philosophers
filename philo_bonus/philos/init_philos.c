@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:42:28 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 15:14:03 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:34:15 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static int				add_philo(t_philosopher **philo_list,
 							int id, t_philo_var philo_var);
 static t_philosopher	*get_last_philo(t_philosopher **philo_list);
-static char				*get_sem_name(int id);
 
 t_philosopher	*init_philos(t_philo_var philo_var)
 {
@@ -28,9 +27,6 @@ t_philosopher	*init_philos(t_philo_var philo_var)
 	philo_list->next = NULL;
 	philo_list->id = 1;
 	philo_list->philo_var = philo_var;
-	philo_list->var_lock_name = get_sem_name(philo_list->id);
-	if (philo_list->var_lock_name == NULL)
-		return (free(philo_list), NULL);
 	i = 0;
 	while (i < philo_var.num_of_philo - 1)
 	{
@@ -71,9 +67,6 @@ static int	add_philo(t_philosopher **philo_list, int id, t_philo_var philo_var)
 	new_philo->id = id;
 	last_philo->next = new_philo;
 	new_philo->philo_var = philo_var;
-	new_philo->var_lock_name = get_sem_name(new_philo->id);
-	if (new_philo->var_lock == NULL)
-		return (-1);
 	return (0);
 }
 
@@ -87,29 +80,15 @@ void	free_philos(t_philosopher **philo_list)
 	current = *philo_list;
 	current = current->next;
 	free_me = *philo_list;
-	sem_unlink(free_me->var_lock_name);
-	free(free_me->var_lock_name);
+	sem_close(&free_me->var_lock);
 	free(free_me);
 	while (current != NULL)
 	{
 		free_me = current;
 		current = current->next;
-		sem_unlink(free_me->var_lock_name);
-		free(free_me->var_lock_name);
+		sem_close(&free_me->var_lock);
 		free(free_me);
 	}
 	*philo_list = NULL;
 }
 
-static char	*get_sem_name(int id)
-{
-	char	*id_str;
-	char	*sem_name;
-
-	id_str = ft_itoa(id);
-	if (id_str == NULL)
-		return (NULL);
-	sem_name = ft_strjoin("/sem_", id_str);
-	free(id);
-	return (sem_name);
-}
