@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 14:33:02 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:39:46 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <stdbool.h>
+# include <semaphore.h>
 
 /* ************************************************************************** */
 /*                            Defines & enums                                 */
@@ -56,19 +57,17 @@ typedef struct s_philo_var
 
 typedef struct s_philosopher
 {
-	pthread_t				thread;
 	int						id;
-	struct s_philosopher	*fork_left;
 	struct s_philosopher	*next;
-	pthread_mutex_t			fork_lock;
 	t_philo_var				philo_var;
 	struct timeval			start_time;
 	struct timeval			*main_start;
 	bool					isdead;
 	int						num_eaten;
 	long					last_meal;
-	pthread_mutex_t			*print_lock;
-	pthread_mutex_t			var_lock;
+	sem_t					*print_lock;
+	sem_t					var_lock;
+	sem_t					fork_lock;
 }	t_philosopher;
 
 /* ************************************************************************** */
