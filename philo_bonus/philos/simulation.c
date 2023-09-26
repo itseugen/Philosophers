@@ -6,14 +6,14 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:11 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 15:48:07 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:05:08 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo_bonus.h"
 
-static int	create_threads(t_philosopher *philo_list,
-				sem_t *print_lock, struct timeval *main_start);
+static int	create_threads(t_philosopher *philo_list, sem_t *print_lock,
+				struct timeval *main_start, sem_t *fork_lock);
 static void	monitor_threads(t_philosopher *philo_list);
 static void	set_threads_to_dead(t_philosopher *philo_list);
 static void	join_threads(t_philosopher *philo_list);
@@ -24,13 +24,16 @@ static void	join_threads(t_philosopher *philo_list);
 int	simulation(t_philosopher *philo_list)
 {
 	sem_t			print_lock;
+	sem_t			fork_lock;
 	struct timeval	main_start;
 
 	print_lock = sem_open("/print_lock", O_CREAT | O_EXCL, 0644, 1);
-	if (print_lock == SEM_FAILED)
+	fork_lock = sem_open("/fork_lock", O_CREAT | O_EXCL, 0644,
+			philo_list->philo_var.num_of_philo / 2);
+	if (print_lock == SEM_FAILED || fork_lock == SEM_FAILED)
 		return (printf("sem open\n"), 1);
 	sem_wait(&print_lock);
-	if (create_threads(philo_list, &print_lock, &main_start) != 0)
+	if (create_threads(philo_list, &print_lock, &main_start, &fork_lock) != 0)
 		return (1);
 	main_start = get_start_time();
 	sem_post(&print_lock);
@@ -75,8 +78,8 @@ static void	monitor_threads(t_philosopher *philo_list)
 /// @param philo_list 
 /// @param print_lock blocks the threads at the start, blocks printing
 /// @return 
-static int	create_threads(t_philosopher *philo_list,
-					sem_t *print_lock, struct timeval *main_start)
+static int	create_threads(t_philosopher *philo_list, sem_t *print_lock,
+				struct timeval *main_start, sem_t *fork_lock)
 {
 	t_philosopher	*current;
 	pid_t			pro_id;
@@ -90,6 +93,7 @@ static int	create_threads(t_philosopher *philo_list,
 			return (printf("sem open\n"), 1);
 		current->print_lock = print_lock;
 		current->main_start = main_start;
+		current->fork_lock = fork_lock;
 		pro_id = fork();
 		if (pro_id == -1)
 			return (printf("Fork fail\n"), 1);

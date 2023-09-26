@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 18:08:07 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 15:55:13 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:23:51 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,46 +41,21 @@ void	starving(t_philosopher *philo)
 /// @param philo 
 void	eat(t_philosopher *philo)
 {
-	if (philo->id % 2 != 0)
+	if (philo->philo_var.num_of_philo == 1)
 	{
-		pthread_mutex_lock(&philo->fork_lock);
-		print_action(philo, FORK);
-		if (&(philo->fork_left->fork_lock) == &(philo->fork_lock))
-		{
-			wait_ms(philo->philo_var.time_to_die + 10);
-			pthread_mutex_unlock(&philo->fork_lock);
-			return ;
-		}
-		pthread_mutex_lock(&philo->fork_left->fork_lock);
-		print_action(philo, FORK);
+		wait_ms(philo->philo_var.time_to_die + 10);
+		return ;
 	}
-	else
-		if (even_fork_lock(philo) == 1)
-			return ;
+	sem_wait(&philo->fork_lock);
+	print_action(philo, FORK);
+	print_action(philo, FORK);
 	print_action(philo, EAT);
 	sem_wait(&philo->var_lock);
 	philo->last_meal = get_ms(philo->start_time);
 	philo->num_eaten++;
 	sem_post(&philo->var_lock);
 	wait_ms(philo->philo_var.time_to_eat);
-	pthread_mutex_unlock(&philo->fork_lock);
-	pthread_mutex_unlock(&philo->fork_left->fork_lock);
-}
-
-static int	even_fork_lock(t_philosopher *philo)
-{
-	usleep(1000);
-	pthread_mutex_lock(&philo->fork_left->fork_lock);
-	print_action(philo, FORK);
-	if (&(philo->fork_left->fork_lock) == &(philo->fork_lock))
-	{
-		wait_ms(philo->philo_var.time_to_die + 10);
-		pthread_mutex_unlock(&philo->fork_lock);
-		return (1);
-	}
-	pthread_mutex_lock(&philo->fork_lock);
-	print_action(philo, FORK);
-	return (0);
+	sem_post(&philo->fork_lock);
 }
 
 void	print_action(t_philosopher *philo, int content)
