@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:42:28 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 15:02:24 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:06:07 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,15 @@ void	free_philos(t_philosopher **philo_list)
 	current = *philo_list;
 	current = current->next;
 	free_me = *philo_list;
-	sem_unlink(&(free_me->var_lock));
+	sem_unlink(free_me->var_lock_name);
+	free(free_me->var_lock_name);
 	free(free_me);
 	while (current != NULL)
 	{
 		free_me = current;
 		current = current->next;
-		sem_unlink(&(free_me->var_lock));
+		sem_unlink(free_me->var_lock_name);
+		free(free_me->var_lock_name);
 		free(free_me);
 	}
 	*philo_list = NULL;
@@ -107,7 +109,7 @@ static char	*get_sem_name(int id)
 	id_str = ft_itoa(id);
 	if (id_str == NULL)
 		return (NULL);
-	sem_name = ft_strjoin("/sem_" + id_str);
+	sem_name = ft_strjoin("/sem_", id_str);
 	free(id);
 	return (sem_name);
 }
