@@ -6,25 +6,29 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:03 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 17:06:50 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 20:35:10 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo_bonus.h"
 
 static void	do_first_action(t_philosopher *philo);
+static void	*monitor_thread(void *param);
 
 void	*philosopher(void *param)
 {
 	t_philosopher	*philo;
+	pthread_t		thread;
 
 	philo = (t_philosopher *)param;
 	sem_wait(philo->print_lock);
 	sem_post(philo->print_lock);
 	sem_wait(philo->var_lock);
-	philo->start_time = *(philo->main_start);
+	philo->start_time = get_start_time();
 	philo->last_meal = get_ms(philo->start_time);
 	philo->num_eaten = 0;
+	if (pthread_create(&thread, NULL, monitor_thread, philo) != 0)
+		sem_post(philo->sim_end);
 	sem_post(philo->var_lock);
 	do_first_action(philo);
 	sem_wait(philo->var_lock);
@@ -38,6 +42,7 @@ void	*philosopher(void *param)
 		sem_wait(philo->var_lock);
 	}
 	sem_post(philo->var_lock);
+	pthread_detach(thread);
 	exit(0);
 }
 
@@ -56,4 +61,24 @@ static void	do_first_action(t_philosopher *philo)
 		wait_ms(philo->philo_var.time_to_sleep);
 	}
 	print_action(philo, THINK);
+}
+
+static void	*monitor_thread(void *param)
+{
+	t_philosopher	*philo;
+
+	philo = (t_philosopher *)param;
+	wait_ms(philo->philo_var.time_to_die);
+	while (1)
+	{
+		starving(philo);
+		sem_wait(philo->var_lock);
+		if (philo->isdead == true)
+		{
+			sem_post(philo->var_lock);
+			break ;
+		}
+		sem_post(philo->var_lock);
+	}
+	return (0);
 }

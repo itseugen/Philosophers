@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 18:08:07 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 17:09:16 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 20:29:07 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	starving(t_philosopher *philo)
 		sem_wait(philo->var_lock);
 		philo->isdead = true;
 		sem_post(philo->var_lock);
+		sem_post(philo->sim_end);
 	}
 	else
 		sem_post(philo->var_lock);

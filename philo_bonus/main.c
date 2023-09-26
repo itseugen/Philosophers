@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:13:45 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 17:26:14 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 17:35:39 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	main(int argc, char *argv[])
 	t_philo_var		philo_var;
 	t_philosopher	*philo_list;
 
+	sem_unlink("/print_lock");
+	sem_unlink("/fork_lock");
 	philo_var.num_has_to_eat = -2;
 	if (get_input(argc, argv, &philo_var) == 1)
 		return (0);

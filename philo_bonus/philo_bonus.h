@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 17:05:43 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 20:22:04 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # include <semaphore.h>
 # include <fcntl.h>
 # include <sys/stat.h>
+# include <signal.h>
+
 /* ************************************************************************** */
 /*                            Defines & enums                                 */
 /* ************************************************************************** */
@@ -70,6 +72,8 @@ typedef struct s_philosopher
 	sem_t					*var_lock;
 	char					*var_lock_name;
 	sem_t					*fork_lock;
+	sem_t					*sim_end;
+	pid_t					pro_id;
 }	t_philosopher;
 
 /* ************************************************************************** */
