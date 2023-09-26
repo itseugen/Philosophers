@@ -53,3 +53,4 @@ dkms.conf
 philo/philo
 LazyPhil*
 *.txt
+philo_bonus/philo_bonus
