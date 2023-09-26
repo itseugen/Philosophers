@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:42:28 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 14:35:15 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:44:10 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ t_philosopher	*init_philos(t_philo_var philo_var)
 			return (free_philos(&philo_list), NULL);
 		i++;
 	}
-	philo_list->fork_left = get_last_philo(&philo_list);
 	return (philo_list);
 }
 
@@ -67,7 +66,6 @@ static int	add_philo(t_philosopher **philo_list, int id, t_philo_var philo_var)
 		return (-1);
 	new_philo->id = id;
 	last_philo->next = new_philo;
-	new_philo->fork_left = last_philo;
 	new_philo->philo_var = philo_var;
 	return (0);
 }
@@ -82,15 +80,13 @@ void	free_philos(t_philosopher **philo_list)
 	current = *philo_list;
 	current = current->next;
 	free_me = *philo_list;
-	pthread_mutex_destroy(&(free_me->fork_lock));
-	pthread_mutex_destroy(&(free_me->var_lock));
+	sem_unlink(&(free_me->var_lock));
 	free(free_me);
 	while (current != NULL)
 	{
 		free_me = current;
 		current = current->next;
-		pthread_mutex_destroy(&(free_me->fork_lock));
-		pthread_mutex_destroy(&(free_me->var_lock));
+		sem_unlink(&(free_me->var_lock));
 		free(free_me);
 	}
 	*philo_list = NULL;
