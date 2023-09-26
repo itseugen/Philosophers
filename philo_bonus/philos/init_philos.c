@@ -6,11 +6,11 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:42:28 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/21 18:49:45 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:35:15 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../philo_bonus.h"
 
 static int				add_philo(t_philosopher **philo_list,
 							int id, t_philo_var philo_var);

@@ -6,11 +6,11 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 15:47:50 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/11 17:25:13 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:34:52 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../philo_bonus.h"
 
 static void	ft_bzero(void *str, size_t n);
 

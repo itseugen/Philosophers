@@ -6,11 +6,11 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 12:35:03 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/21 18:21:03 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:35:00 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../philo_bonus.h"
 
 struct timeval	get_start_time(void)
 {

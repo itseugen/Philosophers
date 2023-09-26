@@ -6,11 +6,11 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:11 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/25 21:23:43 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:35:24 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../philo_bonus.h"
 
 static int	create_threads(t_philosopher *philo_list,
 				pthread_mutex_t *print_lock, struct timeval *main_start);

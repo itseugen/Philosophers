@@ -6,11 +6,11 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:17:04 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/25 21:21:31 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:35:38 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../philo_bonus.h"
 
 static int	get_argv(char *str);
 static bool	is_str_digit(char *str);
