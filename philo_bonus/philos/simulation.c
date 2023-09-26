@@ -6,14 +6,14 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:11 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 14:35:24 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:39:29 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo_bonus.h"
 
 static int	create_threads(t_philosopher *philo_list,
-				pthread_mutex_t *print_lock, struct timeval *main_start);
+				sem_t *print_lock, struct timeval *main_start);
 static void	monitor_threads(t_philosopher *philo_list);
 static void	set_threads_to_dead(t_philosopher *philo_list);
 static void	join_threads(t_philosopher *philo_list);
@@ -23,21 +23,22 @@ static void	join_threads(t_philosopher *philo_list);
 /// @return 
 int	simulation(t_philosopher *philo_list)
 {
-	pthread_mutex_t	print_lock;
+	sem_t			print_lock;
 	struct timeval	main_start;
 
-	if (pthread_mutex_init(&print_lock, NULL) != 0)
-		return (printf("mutex creation\n"), 1);
-	pthread_mutex_lock(&print_lock);
+	print_lock = sem_open("/print_lock", O_CREAT | O_EXCL, 0644, 1);
+	if (print_lock == SEM_FAILED)
+		return (printf("sem open\n"), 1);
+	sem_wait(&print_lock);
 	if (create_threads(philo_list, &print_lock, &main_start) != 0)
 		return (1);
 	main_start = get_start_time();
-	pthread_mutex_unlock(&print_lock);
+	sem_post(&print_lock);
 	monitor_threads(philo_list);
 	set_threads_to_dead(philo_list);
-	pthread_mutex_unlock(&print_lock);
+	sem_wait(&print_lock);
 	join_threads(philo_list);
-	pthread_mutex_destroy(&print_lock);
+	sem_close(&print_lock);
 	return (0);
 }
 
@@ -75,15 +76,14 @@ static void	monitor_threads(t_philosopher *philo_list)
 /// @param print_lock blocks the threads at the start, blocks printing
 /// @return 
 static int	create_threads(t_philosopher *philo_list,
-					pthread_mutex_t *print_lock, struct timeval *main_start)
+					sem_t *print_lock, struct timeval *main_start)
 {
 	t_philosopher	*current;
 
 	current = philo_list;
 	while (current != NULL)
 	{
-		if (pthread_mutex_init(&(current->fork_lock), NULL) != 0)
-			return (printf("mutex creation\n"), 1);
+		current->var_lock = sem_open("/print_lock", O_CREAT | O_EXCL, 0644, 1);
 		if (pthread_mutex_init(&(current->var_lock), NULL) != 0)
 			return (printf("mutex creation\n"), 1);
 		current->print_lock = print_lock;
