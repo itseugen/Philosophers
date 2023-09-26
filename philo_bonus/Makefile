@@ -6,7 +6,7 @@
 #    By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/21 13:58:27 by eweiberl          #+#    #+#              #
-#    Updated: 2023/09/26 14:55:13 by eweiberl         ###   ########.fr        #
+#    Updated: 2023/09/26 15:33:58 by eweiberl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 SOURCE = main.c
 SOURCE += input/get_input.c
-SOURCE += utils/ft_atoi.c utils/ft_strlen.c utils/ft_calloc.c utils/ft_itoa.c utils/ft_memcpy.cc
+SOURCE += utils/ft_atoi.c utils/ft_strlen.c utils/ft_calloc.c utils/ft_itoa.c utils/ft_memcpy.c
 SOURCE += utils/ft_strjoin.c utils/ft_strlcat.c
 SOURCE += philos/init_philos.c philos/exec_philo.c philos/simulation.c philos/philo_utils.c
 SOURCE += time/get_time.c
