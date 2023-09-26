@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 14:44:16 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:54:19 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_philosopher
 	long					last_meal;
 	sem_t					*print_lock;
 	sem_t					var_lock;
+	char					*var_lock_name;
 	sem_t					*fork_lock;
 }	t_philosopher;
 
@@ -100,5 +101,8 @@ long int		ft_atoi_long(const char *str);
 size_t			ft_strlen(const char *s);
 struct timeval	get_start_time(void);
 void			*ft_calloc(size_t count, size_t size);
-
+char			*ft_itoa(int n);
+size_t			ft_strlcat(char *dst, const char *src, size_t dstsize);
+char			*ft_strjoin(char const *s1, char const *s2);
+void			*ft_memcpy(void *dst, const void *src, size_t n);
 #endif
