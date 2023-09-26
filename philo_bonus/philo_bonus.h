@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 14:39:46 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:44:16 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_philosopher
 	long					last_meal;
 	sem_t					*print_lock;
 	sem_t					var_lock;
-	sem_t					fork_lock;
+	sem_t					*fork_lock;
 }	t_philosopher;
 
 /* ************************************************************************** */
