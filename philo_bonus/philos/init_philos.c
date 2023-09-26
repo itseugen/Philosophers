@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:42:28 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 15:40:18 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:58:12 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int	add_philo(t_philosopher **philo_list, int id, t_philo_var philo_var)
 	last_philo->next = new_philo;
 	new_philo->philo_var = philo_var;
 	new_philo->var_lock_name = get_sem_name(new_philo->id);
-	if (new_philo->var_lock == NULL)
+	if (new_philo->var_lock_name == NULL)
 		return (-1);
 	return (0);
 }
@@ -110,6 +110,6 @@ static char	*get_sem_name(int id)
 	if (id_str == NULL)
 		return (NULL);
 	sem_name = ft_strjoin("/sem_", id_str);
-	free(id);
+	free(id_str);
 	return (sem_name);
 }

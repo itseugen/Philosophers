@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:11 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 16:26:01 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/26 17:23:05 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,25 @@ static void	set_threads_to_dead(t_philosopher *philo_list);
 /// @return 
 int	simulation(t_philosopher *philo_list)
 {
-	sem_t			print_lock;
-	sem_t			fork_lock;
+	sem_t			*print_lock;
+	sem_t			*fork_lock;
 	struct timeval	main_start;
 
 	print_lock = sem_open("/print_lock", O_CREAT | O_EXCL, 0644, 1);
 	fork_lock = sem_open("/fork_lock", O_CREAT | O_EXCL, 0644,
 			philo_list->philo_var.num_of_philo / 2);
 	if (print_lock == SEM_FAILED || fork_lock == SEM_FAILED)
-		return (printf("sem open\n"), 1);
-	sem_wait(&print_lock);
-	if (create_threads(philo_list, &print_lock, &main_start, &fork_lock) != 0)
+		return (printf("sem open (sim)\n"), 1);
+	sem_wait(print_lock);
+	if (create_threads(philo_list, print_lock, &main_start, fork_lock) != 0)
 		return (1);
 	main_start = get_start_time();
-	sem_post(&print_lock);
+	sem_post(print_lock);
 	monitor_threads(philo_list);
 	set_threads_to_dead(philo_list);
-	sem_post(&print_lock);
-	sem_close(&print_lock);
+	sem_post(print_lock);
+	sem_close(fork_lock);
+	sem_close(print_lock);
 	return (0);
 }
 
@@ -54,13 +55,13 @@ static void	monitor_threads(t_philosopher *philo_list)
 	while (1)
 	{
 		starving(current);
-		sem_wait(&current->var_lock);
+		sem_wait(current->var_lock);
 		if (current->isdead == true)
 		{
-			sem_post(&current->var_lock);
+			sem_post(current->var_lock);
 			break ;
 		}
-		sem_post(&current->var_lock);
+		sem_post(current->var_lock);
 		if (has_eaten_enough(philo_list) == true)
 		{
 			sem_wait(current->print_lock);
@@ -109,11 +110,17 @@ static void	set_threads_to_dead(t_philosopher *philo_list)
 	current = philo_list;
 	while (current != NULL)
 	{
-		sem_wait(&current->var_lock);
+		sem_wait(current->var_lock);
 		current->isdead = true;
-		sem_post(&current->var_lock);
+		sem_post(current->var_lock);
 		current = current->next;
 	}
 	wait_ms(philo_list->philo_var.time_to_eat
 		+ philo_list->philo_var.time_to_sleep + 10);
+		current = philo_list;
+	while (current != NULL)
+	{
+		wait(NULL);
+		current = current->next;
+	}
 }
