@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 18:08:07 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 20:29:07 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:10:33 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	eat(t_philosopher *philo)
 	sem_wait(philo->var_lock);
 	philo->last_meal = get_ms(philo->start_time);
 	philo->num_eaten++;
+	if (philo->num_eaten == philo->philo_var.num_has_to_eat)
+		sem_post(philo->fully_fed);
 	sem_post(philo->var_lock);
 	wait_ms(philo->philo_var.time_to_eat);
 	sem_post(philo->fork_lock);

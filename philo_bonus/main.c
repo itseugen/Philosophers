@@ -6,24 +6,29 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:13:45 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 17:35:39 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/27 19:02:48 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-// void	check_leaks(void)
-// {
-// 	system("leaks philo");
-// }
+void	check_leaks(void)
+{
+	system("leaks philo_bonus");
+}
 
 int	main(int argc, char *argv[])
 {
 	t_philo_var		philo_var;
 	t_philosopher	*philo_list;
 
-	sem_unlink("/print_lock");
 	sem_unlink("/fork_lock");
+	sem_unlink("/print_lock");
+	sem_unlink("/fully_fed");
+	sem_unlink("/set_dead");
+	sem_unlink("/sim_end");
+	// return (1);
+	// atexit(check_leaks);
 	philo_var.num_has_to_eat = -2;
 	if (get_input(argc, argv, &philo_var) == 1)
 		return (0);

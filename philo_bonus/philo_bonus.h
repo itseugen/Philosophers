@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 20:22:04 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/27 19:07:24 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <signal.h>
+# include <errno.h>
 
 /* ************************************************************************** */
 /*                            Defines & enums                                 */
@@ -73,6 +74,7 @@ typedef struct s_philosopher
 	char					*var_lock_name;
 	sem_t					*fork_lock;
 	sem_t					*sim_end;
+	sem_t					*fully_fed;
 	pid_t					pro_id;
 }	t_philosopher;
 
@@ -87,6 +89,7 @@ long			get_ms(struct timeval start_time);
 void			*philosopher(void *param);
 int				simulation(t_philosopher *philo_list);
 t_philosopher	*init_philos(t_philo_var philo_var);
+void			*monitor_thread(void *param);
 
 /* ************************************************************************** */
 /*                                Philo Utils                                 */
