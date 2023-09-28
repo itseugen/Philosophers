@@ -6,18 +6,20 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:03 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/27 19:07:29 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:06:17 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo_bonus.h"
 
 static void	do_first_action(t_philosopher *philo);
+void		*set_philo_dead(void *param);
 
 void	*philosopher(void *param)
 {
 	t_philosopher	*philo;
 	pthread_t		thread;
+	pthread_t		thread2;
 	struct timeval	c_time;
 
 	philo = (t_philosopher *)param;
@@ -37,6 +39,8 @@ void	*philosopher(void *param)
 	philo->num_eaten = 0;
 	if (pthread_create(&thread, NULL, monitor_thread, philo) != 0)
 		sem_post(philo->sim_end);
+	if (pthread_create(&thread2, NULL, set_philo_dead, philo) != 0)
+		sem_post(philo->sim_end);
 	sem_post(philo->var_lock);
 	do_first_action(philo);
 	sem_wait(philo->var_lock);
@@ -51,6 +55,7 @@ void	*philosopher(void *param)
 	}
 	sem_post(philo->var_lock);
 	pthread_detach(thread);
+	pthread_detach(thread2);
 	exit(0);
 }
 
@@ -90,5 +95,18 @@ void	*monitor_thread(void *param)
 		}
 		sem_post(philo->var_lock);
 	}
+	return (0);
+}
+
+void	*set_philo_dead(void *param)
+{
+	t_philosopher	*philo;
+
+	philo = (t_philosopher *)param;
+	sem_wait(philo->sim_end);
+	sem_post(philo->sim_end);
+	sem_wait(philo->var_lock);
+	philo->isdead = true;
+	sem_post(philo->var_lock);
 	return (0);
 }

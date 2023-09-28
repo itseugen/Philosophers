@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:11 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/27 19:15:10 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:11:39 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	create_threads(t_philosopher *philo_list, sem_t *print_lock,
 				sem_t *sim_end, sem_t *fork_lock);
 static void	monitor_threads(t_philosopher *philo_list);
-static void	kill_processes(t_philosopher *philo_list);
+// static void	kill_processes(t_philosopher *philo_list);
 void		*monitor_fed(void *param);
 
 /// @brief Handles the simulation of the philos
@@ -39,25 +39,25 @@ int	simulation(t_philosopher *philo_list)
 		return (1);
 	sem_post(print_lock);
 	monitor_threads(philo_list);
-	kill_processes(philo_list);
-	sem_close(philo_list->fork_lock);
-	sem_close(philo_list->print_lock);
-	sem_close(philo_list->sim_end);
-	sem_close(philo_list->fully_fed);
+	// kill_processes(philo_list);
+	// sem_close(philo_list->fork_lock);
+	// sem_close(philo_list->print_lock);
+	// sem_close(philo_list->sim_end);
+	// sem_close(philo_list->fully_fed);
 	return (0);
 }
 
-static void	kill_processes(t_philosopher *philo_list)
-{
-	t_philosopher	*current;
+// static void	kill_processes(t_philosopher *philo_list)
+// {
+// 	t_philosopher	*current;
 
-	current = philo_list;
-	while (current != NULL)
-	{
-		kill(current->pro_id, 15);
-		current = current->next;
-	}
-}
+// 	current = philo_list;
+// 	while (current != NULL)
+// 	{
+// 		kill(current->pro_id, 15);
+// 		current = current->next;
+// 	}
+// }
 
 /// @brief Checks if a philo has dies or all have eaten enough
 /// @param philo_list 
@@ -69,10 +69,15 @@ static void	monitor_threads(t_philosopher *philo_list)
 	current = philo_list;
 	if (pthread_create(&check_fed, NULL, monitor_fed, current) != 0)
 		return ;
+	printf("create %i %p\n",philo_list->id,(void *)check_fed);
 	wait_ms(current->philo_var.time_to_die);
 	sem_wait(current->sim_end);
 	sem_wait(current->sim_end);
+	sem_post(current->fully_fed);
+	usleep(100);
 	pthread_detach(check_fed);
+	wait_ms(philo_list->philo_var.time_to_eat
+		+ philo_list->philo_var.time_to_sleep);
 }
 
 void	*monitor_fed(void *param)
@@ -82,13 +87,21 @@ void	*monitor_fed(void *param)
 
 	is_fed = 0;
 	philo = (t_philosopher *)param;
+	if (philo->philo_var.num_of_philo == -2)
+		return (0);
 	sem_wait(philo->fully_fed);
 	while (is_fed < philo->philo_var.num_of_philo)
 	{
 		sem_wait(philo->fully_fed);
+		if (philo->isdead == true)
+			return (0);
 		is_fed++;
 	}
+	sem_wait(philo->print_lock);
 	sem_post(philo->sim_end);
+	wait_ms(philo->philo_var.time_to_eat
+		+ philo->philo_var.time_to_sleep + 1000);
+	sem_post(philo->print_lock);
 	return (0);
 }
 

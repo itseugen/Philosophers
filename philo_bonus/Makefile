@@ -6,7 +6,7 @@
 #    By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/21 13:58:27 by eweiberl          #+#    #+#              #
-#    Updated: 2023/09/26 15:33:58 by eweiberl         ###   ########.fr        #
+#    Updated: 2023/09/28 18:50:12 by eweiberl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ all: $(NAME)
 dataraces: CFLAGS += -fsanitize=thread
 dataraces: re
 
-debian: CFLAGS += -pthread
+debian: CFLAGS += -pthread 
 debian: re
 
 .c.o:
