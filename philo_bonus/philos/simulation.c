@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:11 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/28 19:11:39 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:32:23 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,16 @@ int	simulation(t_philosopher *philo_list)
 	sim_end = sem_open("/sim_end", O_CREAT | O_EXCL, 0644, 1);
 	fork_lock = sem_open("/fork_lock", O_CREAT | O_EXCL, 0644,
 			philo_list->philo_var.num_of_philo / 2);
-	// if (print_lock == SEM_FAILED || fork_lock == SEM_FAILED
-	// 	|| sim_end == SEM_FAILED)
-	// 	return (printf("sem open (simulation)\n"), 1);
 	sem_wait(print_lock);
 	if (create_threads(philo_list, print_lock, sim_end, fork_lock) != 0)
 		return (1);
 	sem_post(print_lock);
 	monitor_threads(philo_list);
 	// kill_processes(philo_list);
-	// sem_close(philo_list->fork_lock);
-	// sem_close(philo_list->print_lock);
-	// sem_close(philo_list->sim_end);
-	// sem_close(philo_list->fully_fed);
+	sem_close(philo_list->fork_lock);
+	sem_close(philo_list->print_lock);
+	sem_close(philo_list->sim_end);
+	sem_close(philo_list->fully_fed);
 	return (0);
 }
 
@@ -69,13 +66,14 @@ static void	monitor_threads(t_philosopher *philo_list)
 	current = philo_list;
 	if (pthread_create(&check_fed, NULL, monitor_fed, current) != 0)
 		return ;
-	printf("create %i %p\n",philo_list->id,(void *)check_fed);
 	wait_ms(current->philo_var.time_to_die);
 	sem_wait(current->sim_end);
 	sem_wait(current->sim_end);
+	philo_list->isdead = true;
 	sem_post(current->fully_fed);
 	usleep(100);
 	pthread_detach(check_fed);
+	// pthread_join(check_fed, NULL);
 	wait_ms(philo_list->philo_var.time_to_eat
 		+ philo_list->philo_var.time_to_sleep);
 }
@@ -116,19 +114,14 @@ static int	create_threads(t_philosopher *philo_list, sem_t *print_lock,
 	sem_t			*fully_fed;
 	struct timeval	start_time;
 
-	fully_fed = sem_open("/fully_fed", O_CREAT | O_EXCL, 0644, 1);
-	// if (fully_fed == SEM_FAILED)
-	// 	return (printf("sem open (create threads)\n"), 1);
+	fully_fed = sem_open("/fully_fed", C | E, 0644, 1);
 	current = philo_list;
 	start_time = get_start_time();
 	start_time.tv_sec++;
 	while (current != NULL)
 	{
 		sem_unlink(current->var_lock_name);
-		current->var_lock = sem_open(current->var_lock_name,
-				O_CREAT | O_EXCL, 0644, 1);
-		// if (current->var_lock == SEM_FAILED)
-		// 	return (printf("sem open (create threads)\n"), 1);
+		current->var_lock = sem_open(current->var_lock_name, C | E, 0644, 1);
 		current->print_lock = print_lock;
 		current->sim_end = sim_end;
 		current->fork_lock = fork_lock;

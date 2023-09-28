@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:17:04 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/26 14:35:38 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:35:57 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	get_input(int argc, char *argv[], t_philo_var *philo_var)
 		return (1);
 	if (philo_var->num_of_philo < 1)
 		return (1);
-	if (philo_var->num_of_philo > 200)
+	if (philo_var->num_of_philo > 10)
 	{
 		printf("\033[0;31m\t\tWARNING\n\033[0m");
 		printf("Too many philosophers might lead to instability\n");

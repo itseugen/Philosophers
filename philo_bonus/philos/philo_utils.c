@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 18:08:07 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/27 16:10:33 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:38:59 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,17 @@ bool	has_eaten_enough(t_philosopher *philo)
 		current = current->next;
 	}
 	return (true);
+}
+
+void	*set_philo_dead(void *param)
+{
+	t_philosopher	*philo;
+
+	philo = (t_philosopher *)param;
+	sem_wait(philo->sim_end);
+	sem_post(philo->sim_end);
+	sem_wait(philo->var_lock);
+	philo->isdead = true;
+	sem_post(philo->var_lock);
+	return (0);
 }

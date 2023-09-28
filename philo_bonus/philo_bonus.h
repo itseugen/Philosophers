@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:52:12 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/27 19:07:24 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:37:22 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 
 # define FREE 0
 # define LOCK 1
+# define C O_CREAT
+# define E O_EXCL
 
 enum e_print
 {
@@ -100,6 +102,7 @@ void			eat(t_philosopher *philo);
 bool			dies_during(t_philosopher *philo, int action);
 void			print_action(t_philosopher *philo, int content);
 bool			has_eaten_enough(t_philosopher *philo);
+void			*set_philo_dead(void *param);
 
 /* ************************************************************************** */
 /*                                  Utils                                     */
