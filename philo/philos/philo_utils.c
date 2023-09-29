@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 18:08:07 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/25 19:08:23 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/29 17:56:43 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	starving(t_philosopher *philo)
 /// @param philo 
 void	eat(t_philosopher *philo)
 {
-	if (philo->id % 2 != 0)
+	if (philo->id % 2 != 0
+		&& !(philo->philo_var.num_of_philo == 3 && philo->id == 3))
 	{
 		pthread_mutex_lock(&philo->fork_lock);
 		print_action(philo, FORK);
