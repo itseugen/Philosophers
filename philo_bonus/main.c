@@ -6,16 +6,11 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:13:45 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/28 19:39:58 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/29 16:33:46 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-void	check_leaks(void)
-{
-	system("leaks philo_bonus");
-}
 
 int	main(int argc, char *argv[])
 {
@@ -27,8 +22,6 @@ int	main(int argc, char *argv[])
 	sem_unlink("/fully_fed");
 	sem_unlink("/set_dead");
 	sem_unlink("/sim_end");
-	// return (1);
-	// atexit(check_leaks);
 	philo_var.num_has_to_eat = -2;
 	if (get_input(argc, argv, &philo_var) == 1)
 		return (0);

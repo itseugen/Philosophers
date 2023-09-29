@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:11 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/28 19:32:23 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/29 16:33:27 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	simulation(t_philosopher *philo_list)
 		return (1);
 	sem_post(print_lock);
 	monitor_threads(philo_list);
-	// kill_processes(philo_list);
 	sem_close(philo_list->fork_lock);
 	sem_close(philo_list->print_lock);
 	sem_close(philo_list->sim_end);
@@ -73,7 +72,6 @@ static void	monitor_threads(t_philosopher *philo_list)
 	sem_post(current->fully_fed);
 	usleep(100);
 	pthread_detach(check_fed);
-	// pthread_join(check_fed, NULL);
 	wait_ms(philo_list->philo_var.time_to_eat
 		+ philo_list->philo_var.time_to_sleep);
 }
