@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 18:08:07 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/28 19:38:59 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/09/29 16:43:28 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	eat(t_philosopher *philo)
 {
 	if (philo->philo_var.num_of_philo == 1)
 	{
+		print_action(philo, FORK);
 		wait_ms(philo->philo_var.time_to_die + 10);
 		return ;
 	}
