@@ -42,7 +42,7 @@ Coded in
 - Each philosopher has to be a process (the main process cannot be a philosopher).
 - Semaphores have to be used instead of mutexes.
 - The forks are in the middle of the table (two philosphers next to each other are allowed to eat at the same time).
-- The forks have to be represented by a mutex.
+- The forks have to be represented by a semaphore.
 ### Limitations:
 - More than 200 philosophers might lead to instability (much fewer for the bonus part).
 - Too small times between eating and dying might lead to instability (./philo 4 401 200 200).
