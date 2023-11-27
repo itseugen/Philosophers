@@ -6,7 +6,7 @@
 /*   By: eweiberl <eweiberl@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:47:11 by eweiberl          #+#    #+#             */
-/*   Updated: 2023/09/29 16:33:27 by eweiberl         ###   ########.fr       */
+/*   Updated: 2023/11/27 14:04:11 by eweiberl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	simulation(t_philosopher *philo_list)
 	sem_t			*print_lock;
 	sem_t			*fork_lock;
 	sem_t			*sim_end;
+	t_philosopher	*current;
 
 	print_lock = sem_open("/print_lock", O_CREAT | O_EXCL, 0644, 1);
 	sim_end = sem_open("/sim_end", O_CREAT | O_EXCL, 0644, 1);
@@ -40,6 +41,12 @@ int	simulation(t_philosopher *philo_list)
 	sem_close(philo_list->print_lock);
 	sem_close(philo_list->sim_end);
 	sem_close(philo_list->fully_fed);
+	current = philo_list;
+	while (current != NULL)
+	{
+		kill(current->pro_id, SIGKILL);
+		current = current->next;
+	}
 	return (0);
 }
 
